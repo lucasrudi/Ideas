@@ -6,8 +6,8 @@
 <html>
     <head>
         <title>Create Idea</title>
-        <script type="text/javascript" src="<c:url value="/scripts/jquery-1.4.min.js" /> "></script>
-        <script type="text/javascript" src="<c:url value="/scripts/json.min.js" /> "></script>
+        <script type="text/javascript" src="<c:url value="../static/scripts/jquery-1.4.min.js" /> "></script>
+        <script type="text/javascript" src="<c:url value="../static/scripts/json.min.js" /> "></script>
     </head>
     <body>
         <div class="container">

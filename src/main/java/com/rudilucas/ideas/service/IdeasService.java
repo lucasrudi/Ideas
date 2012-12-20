@@ -2,6 +2,8 @@ package com.rudilucas.ideas.service;
 
 import java.util.List;
 
+import org.bson.types.ObjectId;
+
 import com.rudilucas.ideas.model.Ideas;
 
 public interface IdeasService {
@@ -9,6 +11,6 @@ public interface IdeasService {
 
 	public void sotreIdea(Ideas idea);
 
-	public Ideas loadIdea(Long id);
+	public Ideas loadIdea(ObjectId id);
 
 }

@@ -10,17 +10,17 @@ import org.springframework.data.annotation.Id;
 
 public class Vote implements Externalizable {
 	@Id
-	private ObjectId id;
+	private ObjectId voteId;
 	private User user;
 	private VoteType type;
 	private String comment;
 
-	public ObjectId getId() {
-		return id;
+	public ObjectId getVoteId() {
+		return voteId;
 	}
 
-	public void setId(ObjectId id) {
-		this.id = id;
+	public void setVoteId(ObjectId voteId) {
+		this.voteId = voteId;
 	}
 
 	public User getUser() {
@@ -49,14 +49,14 @@ public class Vote implements Externalizable {
 
 	public void readExternal(ObjectInput in) throws IOException,
 			ClassNotFoundException {
-		id = (ObjectId) in.readObject();
+		voteId = (ObjectId) in.readObject();
 		user = (User) in.readObject();
 		type = (VoteType) in.readObject();
 		comment = (String) in.readObject();
 	}
 
 	public void writeExternal(ObjectOutput out) throws IOException {
-		out.writeObject(id);
+		out.writeObject(voteId);
 		out.writeObject(user);
 		out.writeObject(type);
 		out.writeObject(comment);

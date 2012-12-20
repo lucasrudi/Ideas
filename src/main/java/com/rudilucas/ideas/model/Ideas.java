@@ -4,6 +4,7 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -78,6 +79,18 @@ public class Ideas implements Externalizable {
 		out.writeInt(positiveVotes);
 		out.writeInt(negativeVotes);
 		out.writeObject(votes);
+	}
+
+	public void addVote(Vote vote) {
+		if (votes == null) {
+			votes = new ArrayList<Vote>();
+		}
+		votes.add(vote);
+		if (vote.getType().equals(VoteType.POSITIVE)) {
+			positiveVotes += 1;
+		} else {
+			negativeVotes += 1;
+		}
 	}
 
 }

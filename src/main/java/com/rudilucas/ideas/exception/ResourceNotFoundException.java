@@ -1,5 +1,6 @@
 package com.rudilucas.ideas.exception;
 
+import org.bson.types.ObjectId;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -8,13 +9,13 @@ public class ResourceNotFoundException extends RuntimeException {
 
 	private static final long serialVersionUID = -4907442976494965196L;
 
-	private Long resourceId;
+	private ObjectId resourceId;
 
-	public ResourceNotFoundException(Long resourceId) {
+	public ResourceNotFoundException(ObjectId resourceId) {
 		this.resourceId = resourceId;
 	}
 
-	public Long getResourceId() {
+	public ObjectId getResourceId() {
 		return resourceId;
 	}
 

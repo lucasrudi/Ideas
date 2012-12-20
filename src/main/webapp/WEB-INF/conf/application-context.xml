@@ -14,6 +14,7 @@
 
 	<context:component-scan base-package="com.rudilucas.ideas" />
 	<mvc:annotation-driven />
+	<mvc:resources mapping="/static/**" location="/WEB-INF/" />
 
 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -46,8 +47,10 @@
 		</property>
 		<property name="viewResolvers">
 			<list>
-				<bean
-					class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+				<bean id="viewResolver"
+					class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+					<property name="viewClass"
+						value="org.springframework.web.servlet.view.JstlView" />
 					<property name="prefix" value="/WEB-INF/views/" />
 					<property name="suffix" value=".jsp" />
 				</bean>

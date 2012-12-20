@@ -2,6 +2,7 @@ package com.rudilucas.ideas.service;
 
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +24,7 @@ public class DefaultIdeasService implements IdeasService {
 		ideasDao.store(idea);
 	}
 
-	public Ideas loadIdea(Long id) {
+	public Ideas loadIdea(ObjectId id) {
 		return ideasDao.find(id);
 	}
 }
