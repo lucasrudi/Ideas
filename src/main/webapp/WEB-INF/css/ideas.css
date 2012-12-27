@@ -1,0 +1,17 @@
+.voteUp p{
+	background: url('../../static/images/thumb_up.png');
+	display: block;
+	width: 20px;
+	height: 20px;
+	background-size: 20px;
+	background-repeat: no-repeat;
+}
+
+.voteDown p {
+	background: url('../../static/images/thumb_down.png');
+	display: block;
+	width: 20px;
+	height: 20px;
+	background-size: 20px;
+	background-repeat: no-repeat;
+}
