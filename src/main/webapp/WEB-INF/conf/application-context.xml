@@ -16,16 +16,6 @@
 	<mvc:annotation-driven />
 	<mvc:resources mapping="/static/**" location="/WEB-INF/" />
 
-	<bean id="propertyConfigurer"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<list>
-				<value>WEB-INF/conf/application.properties</value>
-			</list>
-		</property>
-		<property name="ignoreUnresolvablePlaceholders" value="false" />
-	</bean>
-
 	<bean id="log4jInitializer"
 		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
 		<property name="targetClass" value="org.springframework.util.Log4jConfigurer" />
@@ -63,7 +53,16 @@
 			</list>
 		</property>
 	</bean>
-	<import resource="security-context.xml" />
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>WEB-INF/conf/localhost.properties</value>
+			</list>
+		</property>
+		<property name="ignoreUnresolvablePlaceholders" value="false" />
+	</bean>
+	<import resource="security-sample.xml" />
 	<import resource="dao-context.xml " />
+	<import resource="ldap-context.xml" />
 
 </beans>

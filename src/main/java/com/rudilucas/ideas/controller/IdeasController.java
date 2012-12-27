@@ -1,10 +1,12 @@
 package com.rudilucas.ideas.controller;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +19,7 @@ import com.rudilucas.ideas.exception.ResourceNotFoundException;
 import com.rudilucas.ideas.model.Ideas;
 import com.rudilucas.ideas.service.IdeasService;
 
+@Transactional
 @Controller(value = "ideasController")
 @RequestMapping("/ideas")
 public class IdeasController {
@@ -26,7 +29,7 @@ public class IdeasController {
 	@RequestMapping(method = RequestMethod.GET, value = "/getAll")
 	@ResponseBody
 	public ModelAndView getIdeas() {
-		List<Ideas> ideas = ideasService.findAllIdeas();
+		Collection<Ideas> ideas = ideasService.findActiveIdeas();
 		ModelAndView mav = new ModelAndView("ideas/list");
 		mav.addObject("ideasList", ideas);
 		return mav;
@@ -51,6 +54,16 @@ public class IdeasController {
 			throw new ResourceNotFoundException(id);
 		}
 		return idea;
+	}
+	
+	@RequestMapping(value = "/merge/", method = RequestMethod.POST)
+	public void merge(@Param(value = "origin") ObjectId origin, @Param(value = "destination") ObjectId destination) {
+		ideasService.mergeRequest(origin, destination);
+	}
+	
+	@RequestMapping(value = "/mergeAccept/", method = RequestMethod.POST)
+	public void merge(@Param(value = "id") ObjectId id) {
+		ideasService.acceptMerge(id);
 	}
 
 }

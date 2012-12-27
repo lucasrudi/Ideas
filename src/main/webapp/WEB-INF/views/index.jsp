@@ -1,2 +1,2 @@
 <h1>Ideas</h1>
-<a href="list">List current ideas</a>
+<a href="../ideas/getAll">List current ideas</a>

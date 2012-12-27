@@ -7,7 +7,9 @@ import java.io.ObjectOutput;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.stereotype.Component;
 
+@Component(value="user")
 public class User implements Externalizable {
 	@Id
 	private ObjectId id;

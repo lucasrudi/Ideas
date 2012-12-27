@@ -16,10 +16,14 @@ public class Ideas implements Externalizable {
 	private ObjectId id;
 	private String title;
 	private String description;
+	private User creator;
 	private int positiveVotes;
 	private int negativeVotes;
+	private IdeaStatus status;
 	@Transient
 	private transient List<Vote> votes;
+	@Transient
+	private transient List<Ideas> mergedIdeas;
 
 	public ObjectId getId() {
 		return id;
@@ -61,6 +65,30 @@ public class Ideas implements Externalizable {
 		this.negativeVotes = negativeVotes;
 	}
 
+	public User getCreator() {
+		return creator;
+	}
+
+	public void setCreator(User creator) {
+		this.creator = creator;
+	}
+
+	public List<Vote> getVotes() {
+		return votes;
+	}
+
+	public IdeaStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(IdeaStatus status) {
+		this.status = status;
+	}
+	
+	public List<Ideas> getMergedIdeas() {
+		return mergedIdeas;
+	}
+
 	@SuppressWarnings("unchecked")
 	public void readExternal(ObjectInput in) throws IOException,
 			ClassNotFoundException {
@@ -70,6 +98,8 @@ public class Ideas implements Externalizable {
 		positiveVotes = in.readInt();
 		negativeVotes = in.readInt();
 		votes = (List<Vote>) in.readObject();
+		creator = (User) in.readObject();
+		status = (IdeaStatus) in.readObject();
 	}
 
 	public void writeExternal(ObjectOutput out) throws IOException {
@@ -79,6 +109,8 @@ public class Ideas implements Externalizable {
 		out.writeInt(positiveVotes);
 		out.writeInt(negativeVotes);
 		out.writeObject(votes);
+		out.writeObject(creator);
+		out.writeObject(status);
 	}
 
 	public void addVote(Vote vote) {
@@ -91,6 +123,14 @@ public class Ideas implements Externalizable {
 		} else {
 			negativeVotes += 1;
 		}
+	}
+
+	public boolean isActive() {
+		return status.equals(IdeaStatus.ACTIVE) || status.equals(IdeaStatus.IN_PROGRESS);
+	}
+
+	public void addMergedIdea(Ideas originIdea) {
+		mergedIdeas.add(originIdea);
 	}
 
 }
