@@ -1,6 +1,5 @@
 package com.rudilucas.ideas.security;
 
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.authentication.AuthenticationDetailsSource;

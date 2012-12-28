@@ -20,6 +20,7 @@
 </head>
 
 <body>
+	<jsp:include page="../general/navigation.jsp"></jsp:include>
 	<div class="container">
 		<h1>Ideas</h1>
 		<div id="list">
@@ -59,7 +60,7 @@
 	</div>
 </body>
 
-<script type="text/javascript">   
+<script type="text/javascript">
 $(document).ready(function() {
 	ideasListTable = $('#data_table').dataTable();
 	$('#data_table tbody tr').draggable();

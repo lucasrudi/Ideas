@@ -7,8 +7,8 @@ import com.rudilucas.ideas.model.MergeRequest;
 
 public interface MergeService {
 
-	void requestMerge(Ideas originIdea, Ideas destinationIdea);
+    void requestMerge(Ideas originIdea, Ideas destinationIdea);
 
-	MergeRequest acceptMerge(ObjectId id);
+    MergeRequest acceptMerge(ObjectId id);
 
 }

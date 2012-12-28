@@ -19,13 +19,13 @@ import com.rudilucas.ideas.service.VoteService;
 @RequestMapping("/vote")
 public class VoteController {
 
-	@Autowired
-	private VoteService voteService;
+    @Autowired
+    private VoteService voteService;
 
-	@RequestMapping(value = "/saveVote/{id}", method = RequestMethod.POST)
-	public void voteIdea(@PathVariable ObjectId id, @ModelAttribute Vote voteForm, HttpServletResponse respose) {
-		voteService.saveVote(id, voteForm);
-		respose.setStatus(HttpServletResponse.SC_OK);
-	}
+    @RequestMapping(value = "/saveVote/{id}", method = RequestMethod.POST)
+    public void voteIdea(@PathVariable ObjectId id, @ModelAttribute Vote voteForm, HttpServletResponse respose) {
+        voteService.saveVote(id, voteForm);
+        respose.setStatus(HttpServletResponse.SC_OK);
+    }
 
 }

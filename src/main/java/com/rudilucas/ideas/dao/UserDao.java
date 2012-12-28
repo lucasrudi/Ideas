@@ -4,8 +4,8 @@ import com.rudilucas.ideas.security.IdeasUserDetails;
 
 public interface UserDao {
 
-	void updateUser(IdeasUserDetails loyaltyUserDetails);
+    void updateUser(IdeasUserDetails loyaltyUserDetails);
 
-	IdeasUserDetails findUser(int memberId);
+    IdeasUserDetails findUser(int memberId);
 
 }

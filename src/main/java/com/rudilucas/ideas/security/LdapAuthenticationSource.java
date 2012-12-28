@@ -4,12 +4,13 @@ import org.springframework.security.ldap.authentication.SpringSecurityAuthentica
 
 public class LdapAuthenticationSource extends SpringSecurityAuthenticationSource {
 
-	@Override
-	public String getCredentials() {
-		return super.getCredentials();
-	}
-	@Override
-	public String getPrincipal() {
-		return super.getPrincipal();
-	}
+    @Override
+    public String getCredentials() {
+        return super.getCredentials();
+    }
+
+    @Override
+    public String getPrincipal() {
+        return super.getPrincipal();
+    }
 }

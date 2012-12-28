@@ -4,6 +4,6 @@ import com.rudilucas.ideas.security.IdeasUserDetails;
 
 public interface UserService {
 
-	void updateUser(IdeasUserDetails loyaltyUserDetails);
+    void updateUser(IdeasUserDetails loyaltyUserDetails);
 
 }

@@ -18,47 +18,47 @@ import com.rudilucas.ideas.model.MergeRequest;
 @Transactional
 @Service(value = "ideasService")
 public class DefaultIdeasService implements IdeasService {
-	@Autowired
-	private IdeasDao ideasDao;
-	@Autowired
-	private MergeService mergeService;
+    @Autowired
+    private IdeasDao ideasDao;
+    @Autowired
+    private MergeService mergeService;
 
-	public Collection<Ideas> findActiveIdeas() {
-		List<Ideas> findAllIdeas = ideasDao.findAllIdeas();
-		Collection<Ideas> activeIdeas = CollectionUtils.select(findAllIdeas, new Predicate<Ideas>() {
-			
-			@Override
-			public boolean evaluate(Ideas ideas) {
-				return ideas.isActive();
-			}
-		});
-		return activeIdeas;
-	}
+    public Collection<Ideas> findActiveIdeas() {
+        List<Ideas> findAllIdeas = ideasDao.findAllIdeas();
+        Collection<Ideas> activeIdeas = CollectionUtils.select(findAllIdeas, new Predicate<Ideas>() {
 
-	public void sotreIdea(Ideas idea) {
-		ideasDao.store(idea);
-	}
+            @Override
+            public boolean evaluate(Ideas ideas) {
+                return ideas.isActive();
+            }
+        });
+        return activeIdeas;
+    }
 
-	public Ideas loadIdea(ObjectId id) {
-		return ideasDao.find(id);
-	}
+    public void sotreIdea(Ideas idea) {
+        ideasDao.store(idea);
+    }
 
-	@Override
-	public void mergeRequest(ObjectId origin, ObjectId destination) {
-		Ideas originIdea = ideasDao.find(origin);
-		Ideas destinationIdea = ideasDao.find(destination);
-		mergeService.requestMerge(originIdea, destinationIdea);
-	}
+    public Ideas loadIdea(ObjectId id) {
+        return ideasDao.find(id);
+    }
 
-	@Override
-	public void acceptMerge(ObjectId id) {
-		// TODO validate that destinationIdea user name match with logged user
-		MergeRequest acceptedMerge = mergeService.acceptMerge(id);
-		Ideas destinationIdea = acceptedMerge.getDestinationIdea();
-		Ideas originIdea = acceptedMerge.getOriginIdea();
-		destinationIdea.addMergedIdea(originIdea);
-		originIdea.setStatus(IdeaStatus.MERGED);
-		ideasDao.store(originIdea);
-		ideasDao.store(destinationIdea);
-	}
+    @Override
+    public void mergeRequest(ObjectId origin, ObjectId destination) {
+        Ideas originIdea = ideasDao.find(origin);
+        Ideas destinationIdea = ideasDao.find(destination);
+        mergeService.requestMerge(originIdea, destinationIdea);
+    }
+
+    @Override
+    public void acceptMerge(ObjectId id) {
+        // TODO validate that destinationIdea user name match with logged user
+        MergeRequest acceptedMerge = mergeService.acceptMerge(id);
+        Ideas destinationIdea = acceptedMerge.getDestinationIdea();
+        Ideas originIdea = acceptedMerge.getOriginIdea();
+        destinationIdea.addMergedIdea(originIdea);
+        originIdea.setStatus(IdeaStatus.MERGED);
+        ideasDao.store(originIdea);
+        ideasDao.store(destinationIdea);
+    }
 }

@@ -12,125 +12,140 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 
 public class Ideas implements Externalizable {
-	@Id
-	private ObjectId id;
-	private String title;
-	private String description;
-	private User creator;
-	private int positiveVotes;
-	private int negativeVotes;
-	private IdeaStatus status;
-	@Transient
-	private transient List<Vote> votes;
-	@Transient
-	private transient List<Ideas> mergedIdeas;
+    @Id
+    private ObjectId id;
+    private String title;
+    private String description;
+    private User creator;
+    private int positiveVotes;
+    private int negativeVotes;
+    private IdeaStatus status;
+    @Transient
+    private transient List<Vote> votes;
+    @Transient
+    private transient List<Ideas> mergedIdeas;
 
-	public ObjectId getId() {
-		return id;
-	}
+    @Deprecated
+    /**
+     * @deprecated to be used only for the modelAtrribute
+     */
+    public Ideas() {
+        this.title = "";
+        this.description = "";
+        status = IdeaStatus.ACTIVE;
+    }
 
-	public void setId(ObjectId id) {
-		this.id = id;
-	}
+    public Ideas(String title, String description) {
+        this.title = title;
+        this.description = description;
+        status = IdeaStatus.ACTIVE;
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    public ObjectId getId() {
+        return id;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public void setId(ObjectId id) {
+        this.id = id;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public int getPositiveVotes() {
-		return positiveVotes;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setPositiveVotes(int positiveVotes) {
-		this.positiveVotes = positiveVotes;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public int getNegativeVotes() {
-		return negativeVotes;
-	}
+    public int getPositiveVotes() {
+        return positiveVotes;
+    }
 
-	public void setNegativeVotes(int negativeVotes) {
-		this.negativeVotes = negativeVotes;
-	}
+    public void setPositiveVotes(int positiveVotes) {
+        this.positiveVotes = positiveVotes;
+    }
 
-	public User getCreator() {
-		return creator;
-	}
+    public int getNegativeVotes() {
+        return negativeVotes;
+    }
 
-	public void setCreator(User creator) {
-		this.creator = creator;
-	}
+    public void setNegativeVotes(int negativeVotes) {
+        this.negativeVotes = negativeVotes;
+    }
 
-	public List<Vote> getVotes() {
-		return votes;
-	}
+    public User getCreator() {
+        return creator;
+    }
 
-	public IdeaStatus getStatus() {
-		return status;
-	}
+    public void setCreator(User creator) {
+        this.creator = creator;
+    }
 
-	public void setStatus(IdeaStatus status) {
-		this.status = status;
-	}
-	
-	public List<Ideas> getMergedIdeas() {
-		return mergedIdeas;
-	}
+    public List<Vote> getVotes() {
+        return votes;
+    }
 
-	@SuppressWarnings("unchecked")
-	public void readExternal(ObjectInput in) throws IOException,
-			ClassNotFoundException {
-		id = (ObjectId) in.readObject();
-		title = (String) in.readObject();
-		description = (String) in.readObject();
-		positiveVotes = in.readInt();
-		negativeVotes = in.readInt();
-		votes = (List<Vote>) in.readObject();
-		creator = (User) in.readObject();
-		status = (IdeaStatus) in.readObject();
-	}
+    public IdeaStatus getStatus() {
+        return status;
+    }
 
-	public void writeExternal(ObjectOutput out) throws IOException {
-		out.writeObject(id);
-		out.writeObject(title);
-		out.writeObject(description);
-		out.writeInt(positiveVotes);
-		out.writeInt(negativeVotes);
-		out.writeObject(votes);
-		out.writeObject(creator);
-		out.writeObject(status);
-	}
+    public void setStatus(IdeaStatus status) {
+        this.status = status;
+    }
 
-	public void addVote(Vote vote) {
-		if (votes == null) {
-			votes = new ArrayList<Vote>();
-		}
-		votes.add(vote);
-		if (vote.getType().equals(VoteType.POSITIVE)) {
-			positiveVotes += 1;
-		} else {
-			negativeVotes += 1;
-		}
-	}
+    public List<Ideas> getMergedIdeas() {
+        return mergedIdeas;
+    }
 
-	public boolean isActive() {
-		return status.equals(IdeaStatus.ACTIVE) || status.equals(IdeaStatus.IN_PROGRESS);
-	}
+    @SuppressWarnings("unchecked")
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        id = (ObjectId) in.readObject();
+        title = (String) in.readObject();
+        description = (String) in.readObject();
+        positiveVotes = in.readInt();
+        negativeVotes = in.readInt();
+        votes = (List<Vote>) in.readObject();
+        creator = (User) in.readObject();
+        status = (IdeaStatus) in.readObject();
+    }
 
-	public void addMergedIdea(Ideas originIdea) {
-		mergedIdeas.add(originIdea);
-	}
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeObject(id);
+        out.writeObject(title);
+        out.writeObject(description);
+        out.writeInt(positiveVotes);
+        out.writeInt(negativeVotes);
+        out.writeObject(votes);
+        out.writeObject(creator);
+        out.writeObject(status);
+    }
+
+    public void addVote(Vote vote) {
+        if (votes == null) {
+            votes = new ArrayList<Vote>();
+        }
+        votes.add(vote);
+        if (vote.getType().equals(VoteType.POSITIVE)) {
+            positiveVotes += 1;
+        } else {
+            negativeVotes += 1;
+        }
+    }
+
+    public boolean isActive() {
+        return status.equals(IdeaStatus.ACTIVE) || status.equals(IdeaStatus.IN_PROGRESS);
+    }
+
+    public void addMergedIdea(Ideas originIdea) {
+        mergedIdeas.add(originIdea);
+    }
 
 }

@@ -5,10 +5,9 @@
 
 <html>
 <head>
-	<title>Ideas</title>
+	<title>stored</title>
 </head>
 <body>
-	<jsp:include page="general/navigation.jsp"></jsp:include>
+	<jsp:include page="../general/navigation.jsp"></jsp:include>
 </body>
 </html>
-

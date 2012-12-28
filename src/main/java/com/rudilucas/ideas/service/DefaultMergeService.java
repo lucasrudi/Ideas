@@ -11,27 +11,27 @@ import com.rudilucas.ideas.dao.MergeDao;
 import com.rudilucas.ideas.model.Ideas;
 import com.rudilucas.ideas.model.MergeRequest;
 
-@Service(value="mergeService")
+@Service(value = "mergeService")
 public class DefaultMergeService implements MergeService {
 
-	@Autowired
-	private MergeDao mergeDao;
-	
-	@Autowired
-	private IdeasDao ideasDao;
-	
-	@Override
-	public void requestMerge(Ideas originIdea, Ideas destinationIdea) {
-		mergeDao.saveMerge(new MergeRequest(originIdea, destinationIdea));
-		//TODO send mail
-	}
+    @Autowired
+    private MergeDao mergeDao;
 
-	@Override
-	public MergeRequest acceptMerge(ObjectId id) {
-		MergeRequest merge = mergeDao.findById(id);
-		merge.setAcceptedDate(new Date());
-		mergeDao.saveMerge(merge);
-		return merge;
-	}
+    @Autowired
+    private IdeasDao ideasDao;
+
+    @Override
+    public void requestMerge(Ideas originIdea, Ideas destinationIdea) {
+        mergeDao.saveMerge(new MergeRequest(originIdea, destinationIdea));
+        // TODO send mail
+    }
+
+    @Override
+    public MergeRequest acceptMerge(ObjectId id) {
+        MergeRequest merge = mergeDao.findById(id);
+        merge.setAcceptedDate(new Date());
+        mergeDao.saveMerge(merge);
+        return merge;
+    }
 
 }

@@ -6,6 +6,6 @@ import com.rudilucas.ideas.model.Vote;
 
 public interface VoteService {
 
-	void saveVote(ObjectId id, Vote vote);
+    void saveVote(ObjectId id, Vote vote);
 
 }

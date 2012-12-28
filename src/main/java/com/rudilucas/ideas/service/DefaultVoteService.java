@@ -9,12 +9,12 @@ import com.rudilucas.ideas.model.Vote;
 
 @Service(value = "voteService")
 public class DefaultVoteService implements VoteService {
-	@Autowired
-	private IdeasDao ideasDao;
+    @Autowired
+    private IdeasDao ideasDao;
 
-	@Override
-	public void saveVote(ObjectId id, Vote vote) {
-		ideasDao.addVote(id, vote);
-	}
-	
+    @Override
+    public void saveVote(ObjectId id, Vote vote) {
+        ideasDao.addVote(id, vote);
+    }
+
 }

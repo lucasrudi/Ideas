@@ -9,12 +9,12 @@ import com.rudilucas.ideas.model.Vote;
 
 public interface IdeasDao {
 
-	List<Ideas> findAllIdeas();
+    List<Ideas> findAllIdeas();
 
-	void store(Ideas idea);
+    void store(Ideas idea);
 
-	Ideas find(ObjectId id);
+    Ideas find(ObjectId id);
 
-	void addVote(ObjectId id, Vote vote);
+    void addVote(ObjectId id, Vote vote);
 
 }

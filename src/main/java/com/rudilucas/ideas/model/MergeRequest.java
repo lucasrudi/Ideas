@@ -10,76 +10,75 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
 public class MergeRequest implements Externalizable {
-	@Id
-	private ObjectId id;
-	private Ideas originIdea;
-	private Ideas destinationIdea;
-	private Date requestedDate;
-	private Date acceptedDate;
+    @Id
+    private ObjectId id;
+    private Ideas originIdea;
+    private Ideas destinationIdea;
+    private Date requestedDate;
+    private Date acceptedDate;
 
-	public MergeRequest(Ideas originIdea, Ideas destinationIdea) {
-		this.originIdea = originIdea;
-		this.destinationIdea = destinationIdea;
-		requestedDate = new Date();
-	}
+    public MergeRequest(Ideas originIdea, Ideas destinationIdea) {
+        this.originIdea = originIdea;
+        this.destinationIdea = destinationIdea;
+        requestedDate = new Date();
+    }
 
-	public ObjectId getId() {
-		return id;
-	}
+    public ObjectId getId() {
+        return id;
+    }
 
-	public void setId(ObjectId id) {
-		this.id = id;
-	}
+    public void setId(ObjectId id) {
+        this.id = id;
+    }
 
-	public Ideas getOriginIdea() {
-		return originIdea;
-	}
+    public Ideas getOriginIdea() {
+        return originIdea;
+    }
 
-	public void setOriginIdea(Ideas originIdea) {
-		this.originIdea = originIdea;
-	}
+    public void setOriginIdea(Ideas originIdea) {
+        this.originIdea = originIdea;
+    }
 
-	public Ideas getDestinationIdea() {
-		return destinationIdea;
-	}
+    public Ideas getDestinationIdea() {
+        return destinationIdea;
+    }
 
-	public void setDestinationIdea(Ideas destinationIdea) {
-		this.destinationIdea = destinationIdea;
-	}
+    public void setDestinationIdea(Ideas destinationIdea) {
+        this.destinationIdea = destinationIdea;
+    }
 
-	public Date getRequestedDate() {
-		return requestedDate;
-	}
+    public Date getRequestedDate() {
+        return requestedDate;
+    }
 
-	public void setRequestedDate(Date requestedDate) {
-		this.requestedDate = requestedDate;
-	}
+    public void setRequestedDate(Date requestedDate) {
+        this.requestedDate = requestedDate;
+    }
 
-	public Date getAcceptedDate() {
-		return acceptedDate;
-	}
+    public Date getAcceptedDate() {
+        return acceptedDate;
+    }
 
-	public void setAcceptedDate(Date acceptedDate) {
-		this.acceptedDate = acceptedDate;
-	}
+    public void setAcceptedDate(Date acceptedDate) {
+        this.acceptedDate = acceptedDate;
+    }
 
-	@Override
-	public void readExternal(ObjectInput in) throws IOException,
-			ClassNotFoundException {
-		id = (ObjectId) in.readObject();
-		originIdea = (Ideas) in.readObject();
-		destinationIdea = (Ideas) in.readObject();
-		requestedDate = (Date) in.readObject();
-		acceptedDate = (Date) in.readObject();
-	}
+    @Override
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        id = (ObjectId) in.readObject();
+        originIdea = (Ideas) in.readObject();
+        destinationIdea = (Ideas) in.readObject();
+        requestedDate = (Date) in.readObject();
+        acceptedDate = (Date) in.readObject();
+    }
 
-	@Override
-	public void writeExternal(ObjectOutput out) throws IOException {
-		out.writeObject(id);
-		out.writeObject(originIdea);
-		out.writeObject(destinationIdea);
-		out.writeObject(requestedDate);
-		out.writeObject(acceptedDate);
-	}
+    @Override
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeObject(id);
+        out.writeObject(originIdea);
+        out.writeObject(destinationIdea);
+        out.writeObject(requestedDate);
+        out.writeObject(acceptedDate);
+    }
 
 }

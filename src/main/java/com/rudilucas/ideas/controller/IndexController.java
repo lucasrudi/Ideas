@@ -10,9 +10,14 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping(value = "/")
 public class IndexController {
-	@RequestMapping(value = "index", method = RequestMethod.GET)
-	public ModelAndView getIndex() {
-		return new ModelAndView("index");
-	}
+    @RequestMapping(value = "index", method = RequestMethod.GET)
+    public ModelAndView getIndex() {
+        return new ModelAndView("index");
+    }
+
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public ModelAndView home() {
+        return new ModelAndView("redirect:index");
+    }
 
 }

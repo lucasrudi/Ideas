@@ -23,47 +23,47 @@ import com.rudilucas.ideas.service.IdeasService;
 @Controller(value = "ideasController")
 @RequestMapping("/ideas")
 public class IdeasController {
-	@Autowired
-	private IdeasService ideasService;
+    @Autowired
+    private IdeasService ideasService;
 
-	@RequestMapping(method = RequestMethod.GET, value = "/getAll")
-	@ResponseBody
-	public ModelAndView getIdeas() {
-		Collection<Ideas> ideas = ideasService.findActiveIdeas();
-		ModelAndView mav = new ModelAndView("ideas/list");
-		mav.addObject("ideasList", ideas);
-		return mav;
-	}
+    @RequestMapping(method = RequestMethod.GET, value = "/getAll")
+    @ResponseBody
+    public ModelAndView getIdeas() {
+        Collection<Ideas> ideas = ideasService.findActiveIdeas();
+        ModelAndView mav = new ModelAndView("ideas/list");
+        mav.addObject("ideasList", ideas);
+        return mav;
+    }
 
-	@RequestMapping(method = RequestMethod.GET, value = "/createForm")
-	public String getCreateForm(Model model) {
-		model.addAttribute(new Ideas());
-		return "ideas/createForm";
-	}
+    @RequestMapping(method = RequestMethod.GET, value = "/createForm")
+    public String getCreateForm(Model model) {
+        model.addAttribute(new Ideas("", ""));
+        return "ideas/createForm";
+    }
 
-	@RequestMapping(value = "/store", method = RequestMethod.POST)
-	public void addProvider(@ModelAttribute Ideas idea) {
-		ideasService.sotreIdea(idea);
-	}
+    @RequestMapping(value = "/store", method = RequestMethod.POST)
+    public void addProvider(@ModelAttribute Ideas idea) {
+        ideasService.sotreIdea(idea);
+    }
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public @ResponseBody
-	Ideas getIdea(@PathVariable ObjectId id) {
-		final Ideas idea = ideasService.loadIdea(id);
-		if (idea == null) {
-			throw new ResourceNotFoundException(id);
-		}
-		return idea;
-	}
-	
-	@RequestMapping(value = "/merge/", method = RequestMethod.POST)
-	public void merge(@Param(value = "origin") ObjectId origin, @Param(value = "destination") ObjectId destination) {
-		ideasService.mergeRequest(origin, destination);
-	}
-	
-	@RequestMapping(value = "/mergeAccept/", method = RequestMethod.POST)
-	public void merge(@Param(value = "id") ObjectId id) {
-		ideasService.acceptMerge(id);
-	}
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public @ResponseBody
+    Ideas getIdea(@PathVariable ObjectId id) {
+        final Ideas idea = ideasService.loadIdea(id);
+        if (idea == null) {
+            throw new ResourceNotFoundException(id);
+        }
+        return idea;
+    }
+
+    @RequestMapping(value = "/merge/", method = RequestMethod.POST)
+    public void merge(@Param(value = "origin") ObjectId origin, @Param(value = "destination") ObjectId destination) {
+        ideasService.mergeRequest(origin, destination);
+    }
+
+    @RequestMapping(value = "/mergeAccept/", method = RequestMethod.POST)
+    public void merge(@Param(value = "id") ObjectId id) {
+        ideasService.acceptMerge(id);
+    }
 
 }

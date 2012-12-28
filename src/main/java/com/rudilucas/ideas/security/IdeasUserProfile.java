@@ -1,6 +1,5 @@
 package com.rudilucas.ideas.security;
 
-
 public class IdeasUserProfile {
 
     private String firstName;

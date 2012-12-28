@@ -7,25 +7,24 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import com.rudilucas.ideas.dao.UserDao;
 import com.rudilucas.ideas.security.IdeasUserDetails;
 
-public class DefaultUserService implements UserService, UserDetailsService   {
+public class DefaultUserService implements UserService, UserDetailsService {
 
-	private UserDao userDao;
-	
-	public void setUserDao(UserDao userDao) {
-		this.userDao = userDao;
-	}
+    private UserDao userDao;
 
-	@Override
-	public void updateUser(IdeasUserDetails loyaltyUserDetails) {
-		// TODO Auto-generated method stub
-		
-	}
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
-	@Override
-	public UserDetails loadUserByUsername(String username)
-			throws UsernameNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public void updateUser(IdeasUserDetails loyaltyUserDetails) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

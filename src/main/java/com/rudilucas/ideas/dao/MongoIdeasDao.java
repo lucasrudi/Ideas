@@ -13,32 +13,32 @@ import com.rudilucas.ideas.model.Ideas;
 import com.rudilucas.ideas.model.Vote;
 
 @Component
-@Service(value="ideasDao")
+@Service(value = "ideasDao")
 public class MongoIdeasDao implements IdeasDao {
-	
-	@Autowired
-	@Qualifier("mongoTemplate")
-	private MongoOperations mongoOperations;
-	
-	@Override
-	public List<Ideas> findAllIdeas() {
-		return mongoOperations.findAll(Ideas.class);
-	}
 
-	@Override
-	public void store(Ideas idea) {
-		mongoOperations.save(idea);
-	}
+    @Autowired
+    @Qualifier("mongoTemplate")
+    private MongoOperations mongoOperations;
 
-	@Override
-	public Ideas find(ObjectId id) {
-		return mongoOperations.findById(id, Ideas.class);
-	}
+    @Override
+    public List<Ideas> findAllIdeas() {
+        return mongoOperations.findAll(Ideas.class);
+    }
 
-	@Override
-	public void addVote(ObjectId id, Vote vote) {
-		Ideas ideas = find(id);
-		ideas.addVote(vote);
-		store(ideas);
-	}
+    @Override
+    public void store(Ideas idea) {
+        mongoOperations.save(idea);
+    }
+
+    @Override
+    public Ideas find(ObjectId id) {
+        return mongoOperations.findById(id, Ideas.class);
+    }
+
+    @Override
+    public void addVote(ObjectId id, Vote vote) {
+        Ideas ideas = find(id);
+        ideas.addVote(vote);
+        store(ideas);
+    }
 }
