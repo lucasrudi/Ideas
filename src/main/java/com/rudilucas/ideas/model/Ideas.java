@@ -9,7 +9,7 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 public class Ideas implements Externalizable {
     @Id
@@ -20,9 +20,9 @@ public class Ideas implements Externalizable {
     private int positiveVotes;
     private int negativeVotes;
     private IdeaStatus status;
-    @Transient
+    @DBRef
     private transient List<Vote> votes;
-    @Transient
+    @DBRef
     private transient List<Ideas> mergedIdeas;
 
     @Deprecated
