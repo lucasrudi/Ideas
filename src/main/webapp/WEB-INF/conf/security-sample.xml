@@ -7,6 +7,7 @@
     <s:http>
         <s:intercept-url pattern="/secure/extreme/**" access="ROLE_SUPERVISOR"/>
         <s:intercept-url pattern="/ideas/**" access="ROLE_USER" />
+        <s:intercept-url pattern="/profile/**" access="ROLE_USER" />
         <s:intercept-url pattern="/**" access="ROLE_USER" />
 
         <s:form-login />
@@ -36,7 +37,12 @@
         <constructor-arg value="${ldap.connection.url}"/>
     </bean>
 
-    <bean id="secondLdapProvider-real" class="org.springframework.security.ldap.authentication.LdapAuthenticationProvider">
+    <bean id="secondLdapProvider-real" class="com.rudilucas.ideas.security.ldap.RealLdapAuthenticationProvider">
+        <constructor-arg ref="bindAuthenticator"/>
+        <constructor-arg ref="ldapPopulator"/>
+    </bean>
+
+    <bean id="secondLdapProvider-mock" class="com.rudilucas.ideas.security.ldap.MockLdapAuthenticationProvider">
         <constructor-arg ref="bindAuthenticator"/>
         <constructor-arg ref="ldapPopulator"/>
     </bean>
@@ -61,8 +67,4 @@
         <property name="convertToUpperCase" value="true"/>
     </bean>
 
-    <bean id="secondLdapProvider-mock" class="com.rudilucas.ideas.security.ldap.MockLdapAuthenticationProvider">
-        <constructor-arg ref="bindAuthenticator"/>
-        <constructor-arg ref="ldapPopulator"/>
-    </bean>
 </beans>

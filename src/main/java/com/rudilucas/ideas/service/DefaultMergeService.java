@@ -1,6 +1,7 @@
 package com.rudilucas.ideas.service;
 
 import java.util.Date;
+import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import com.rudilucas.ideas.dao.IdeasDao;
 import com.rudilucas.ideas.dao.MergeDao;
 import com.rudilucas.ideas.model.Ideas;
 import com.rudilucas.ideas.model.MergeRequest;
+import com.rudilucas.ideas.model.User;
 
 @Service(value = "mergeService")
 public class DefaultMergeService implements MergeService {
@@ -32,6 +34,12 @@ public class DefaultMergeService implements MergeService {
         merge.setAcceptedDate(new Date());
         mergeDao.saveMerge(merge);
         return merge;
+    }
+
+    @Override
+    public List<MergeRequest> findPendingMerges(User user) {
+        List<MergeRequest> requests = mergeDao.findByReceiverRequestUser(user);
+        return requests;
     }
 
 }

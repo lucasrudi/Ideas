@@ -4,7 +4,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <div class="container">
 	<div class="navigation">
-		<a href="createForm" >Create new Idea</a>
-		<a href="getAll" >List Ideas</a>
+		<a href="ideas/createForm" >Create new Idea</a>
+		<a href="ideas/getAll" >List Ideas</a>
 	</div>
 </div>

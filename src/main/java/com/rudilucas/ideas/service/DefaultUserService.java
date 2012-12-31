@@ -16,7 +16,7 @@ public class DefaultUserService implements UserService, UserDetailsService {
     }
 
     @Override
-    public void updateUser(IdeasUserDetails loyaltyUserDetails) {
+    public void updateUser(IdeasUserDetails ideasUserDetails) {
         // TODO Auto-generated method stub
 
     }
