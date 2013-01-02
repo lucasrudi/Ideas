@@ -18,6 +18,7 @@ import com.rudilucas.ideas.model.MergeRequest;
 @Transactional
 @Service(value = "ideasService")
 public class DefaultIdeasService implements IdeasService {
+
     @Autowired
     private IdeasDao ideasDao;
     @Autowired

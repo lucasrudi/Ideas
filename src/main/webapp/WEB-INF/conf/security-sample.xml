@@ -5,12 +5,12 @@
     http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
     <s:http>
+        <s:intercept-url pattern="/register" access="ROLE_ANONYMOUS" />
         <s:intercept-url pattern="/secure/extreme/**" access="ROLE_SUPERVISOR"/>
         <s:intercept-url pattern="/ideas/**" access="ROLE_USER" />
         <s:intercept-url pattern="/profile/**" access="ROLE_USER" />
         <s:intercept-url pattern="/**" access="ROLE_USER" />
-
-        <s:form-login />
+        <s:form-login authentication-details-source-ref="ideasAuthenticationDetailsSource" />
         <s:logout />
     </s:http>
 

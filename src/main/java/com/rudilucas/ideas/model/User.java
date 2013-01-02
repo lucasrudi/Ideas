@@ -8,20 +8,31 @@ import java.security.Principal;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.ldap.userdetails.LdapUserDetailsImpl;
 import org.springframework.stereotype.Component;
 
 @Component(value = "userDetails")
-public class User extends LdapUserDetailsImpl implements Externalizable, Principal{
-
-    protected User() {
-        super();
-    }
+public class User extends LdapUserDetailsImpl implements UserDetails, Externalizable, Principal {
 
     @Id
     private ObjectId id;
     private String name;
     private String email;
+
+    protected User() {
+        super();
+    }
+
+    public User(String name) {
+        this.name = name;
+    }
+
+    public User(String name, String mail) {
+        super();
+        this.name = name;
+        this.email = mail;
+    }
 
     public ObjectId getId() {
         return id;

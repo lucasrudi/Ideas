@@ -1,11 +1,15 @@
 package com.rudilucas.ideas.dao;
 
-import com.rudilucas.ideas.security.IdeasUserDetails;
+import org.bson.types.ObjectId;
+
+import com.rudilucas.ideas.model.User;
 
 public interface UserDao {
 
-    void updateUser(IdeasUserDetails loyaltyUserDetails);
+    void updateUser(User user);
 
-    IdeasUserDetails findUser(int memberId);
+    User findUser(ObjectId memberId);
+
+    User findUserByName(String name);
 
 }

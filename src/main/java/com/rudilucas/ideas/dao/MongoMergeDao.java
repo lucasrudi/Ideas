@@ -33,7 +33,7 @@ public class MongoMergeDao implements MergeDao {
 
     @Override
     public List<MergeRequest> findByReceiverRequestUser(User user) {
-        Query query = new Query(where("destinationIdea.creator.name").is(user.getName()));
+        Query query = new Query(where("destinationIdea.creator.username").is(user.getUsername()));
         List<MergeRequest> requests = mongoOperations.find(query, MergeRequest.class);
         return requests;
     }

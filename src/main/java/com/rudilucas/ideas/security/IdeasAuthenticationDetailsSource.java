@@ -2,23 +2,31 @@ package com.rudilucas.ideas.security;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.security.authentication.AuthenticationDetailsSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Service;
 
 import com.rudilucas.ideas.service.UserService;
 
-public class IdeasAuthenticationDetailsSource implements
-        AuthenticationDetailsSource<HttpServletRequest, IdeasUserDetails> {
+@Service(value  ="ideasAuthenticationDetailsSource")
+public class IdeasAuthenticationDetailsSource extends WebAuthenticationDetailsSource {
 
+    @Autowired
     private UserService userService;
 
-    public IdeasUserDetails buildDetails(HttpServletRequest context) {
-        int userId = Integer.parseInt(context.getParameter("userId"));
-        String email = context.getParameter("email");
-        IdeasUserDetails loyaltyUserDetails = new IdeasUserDetails(userId, context.getParameter("firstName"),
-                context.getParameter("lastName"), email, null);
+    public IdeasUserDetails buildDetails(HttpServletRequest request) {
+        String username = request.getParameter("j_username");
+        UserDetails userDetails = userService.loadUserByUsername(username);
+        if (userDetails == null) {
+            throw new AuthenticationServiceException("User not found");
+        }
+        
+        IdeasUserDetails ideasUserDetails = new IdeasUserDetails(request);
 
-        userService.updateUser(loyaltyUserDetails);
-        return loyaltyUserDetails;
+        userService.updateUser(ideasUserDetails);
+        return ideasUserDetails;
     }
 
     public void setUserService(UserService userService) {

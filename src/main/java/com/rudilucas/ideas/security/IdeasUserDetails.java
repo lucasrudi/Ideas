@@ -4,27 +4,28 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 
-public class IdeasUserDetails extends IdeasUserProfile implements UserDetails, Serializable {
+import com.rudilucas.ideas.model.User;
+
+public class IdeasUserDetails extends WebAuthenticationDetails implements UserDetails, Serializable {
 
     private static final long serialVersionUID = 3641320491712760550L;
 
     private Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 
-    private int userId;
+    private User user;
 
-    public IdeasUserDetails() {
-    }
 
-    public IdeasUserDetails(int userId, String firstName, String lastname, String email, String phoneNumber) {
-        super(firstName, lastname, email, phoneNumber);
-        this.userId = userId;
-    }
-
-    public int getUserId() {
-        return userId;
+    public IdeasUserDetails(HttpServletRequest request) {
+        super(request);
+        String username = request.getParameter("username");
+        User user = new User(username);
+        this.user = user;
     }
 
     public Collection<GrantedAuthority> getAuthorities() {
@@ -51,8 +52,13 @@ public class IdeasUserDetails extends IdeasUserProfile implements UserDetails, S
         return true;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    @Override
     public String getUsername() {
-        return this.getEmail();
+        return user.getUsername();
     }
 
 }

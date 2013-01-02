@@ -6,7 +6,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,10 +20,9 @@ import com.rudilucas.ideas.service.MergeService;
 @Controller(value = "profileController")
 @RequestMapping("/profile")
 public class ProfileController {
-    
+
     @Autowired
     private MergeService mergeService;
-    
 
     @RequestMapping(method = RequestMethod.GET, value = "/pendingMerges")
     @ResponseBody
