@@ -7,13 +7,22 @@ import java.io.ObjectOutput;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 public class Vote implements Externalizable {
     @Id
     private ObjectId voteId;
+    @DBRef
     private User user;
     private VoteType type;
     private String comment;
+    
+    /**
+     * to be used by the view resolver only 
+     */
+    @Deprecated
+    public Vote() {
+    }
 
     public ObjectId getVoteId() {
         return voteId;

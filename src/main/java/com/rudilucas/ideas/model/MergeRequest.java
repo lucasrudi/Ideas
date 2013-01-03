@@ -8,11 +8,15 @@ import java.util.Date;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 public class MergeRequest implements Externalizable {
+
     @Id
     private ObjectId id;
+    @DBRef
     private Ideas originIdea;
+    @DBRef
     private Ideas destinationIdea;
     private Date requestedDate;
     private Date acceptedDate;

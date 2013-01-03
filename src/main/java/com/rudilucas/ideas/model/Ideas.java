@@ -12,6 +12,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
 public class Ideas implements Externalizable {
+
     @Id
     private ObjectId id;
     private String title;
@@ -105,6 +106,22 @@ public class Ideas implements Externalizable {
 
     public List<Ideas> getMergedIdeas() {
         return mergedIdeas;
+    }
+
+    public int getAgregattedPositivePoints() {
+        int aggregation = 0;
+        for (Ideas idea : mergedIdeas) {
+            aggregation += idea.getAgregattedPositivePoints();
+        }
+        return aggregation + positiveVotes;
+    }
+
+    public int getAgregattedNegativePoints() {
+        int aggregation = 0;
+        for (Ideas idea : mergedIdeas) {
+            aggregation += idea.getAgregattedNegativePoints();
+        }
+        return aggregation + negativeVotes;
     }
 
     @SuppressWarnings("unchecked")

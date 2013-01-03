@@ -11,7 +11,7 @@
         <s:intercept-url pattern="/ideas/**" access="ROLE_USER" />
         <s:intercept-url pattern="/profile/**" access="ROLE_USER" />
         <s:intercept-url pattern="/**" access="ROLE_USER" />
-        <s:form-login login-page="/login" authentication-details-source-ref="ideasAuthenticationDetailsSource" password-parameter="password" username-parameter="username"/>
+        <s:form-login authentication-details-source-ref="ideasAuthenticationDetailsSource" password-parameter="password" username-parameter="username"/>
         <s:logout logout-url="/logout" />
     </s:http>
 

@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <html>
 <head>
@@ -12,6 +13,8 @@
 	src="<c:url value="../static/scripts/json.min.js" /> "></script>
 <script type="text/javascript"
 	src="<c:url value="../static/scripts/jquery-ui-1.9.2.custom.min.js" /> "></script>
+	<script type="text/javascript"
+	src="<c:url value="../static/scripts/idea_list.js" /> "></script>
 <script type="text/javascript"
 	src="<c:url value="../static/scripts/jquery.datatables.min.js" /> "></script>
 <link rel="Stylesheet" type="style" href="../static/css/ideas.css"/>
@@ -41,8 +44,8 @@
 						<tr>
 							<td>${idea.title}</td>
 							<td>${idea.description}</td>
-							<td>${idea.positiveVotes}</td>
-							<td>${idea.negativeVotes}</td>
+							<td>${idea.positiveVotes} <c:if test="idea.agregattedPositivePoints > 0"> (<c:out value="${idea.agregattedPositivePoints}"/>) </c:if> </td>
+							<td>${idea.negativeVotes} <c:if test="idea.agregattedNegativePoints > 0"> (<c:out value="${idea.agregattedNegativePoints}"/>) </c:if></td>
 							<td class="voteUp" data-id="${idea.id}" onclick="javascript:void(0)" ><p/></td>
 							<td class="voteDown" data-id="${idea.id}" onclick="javascript:void(0)" ><p/></td>
 							<td hidden="true">${idea.id}</td>
@@ -77,7 +80,6 @@ $(document).ready(function() {
     	        url: '/Ideas/ideas/merge/',
     	        data : {"origin": origin[6], "destination": destination[6]},
     	        success: function(msg) {
-    	            alert(msg);
     	            document.getElementById("voteForm").reset();
     	        },
     	        error : function(XMLHttpRequest, textStatus, errorThrown){
@@ -86,33 +88,12 @@ $(document).ready(function() {
     	    });
         }
     });
-	$('.voteDown').click(function(data){
-		$.ajax({
-	        type: 'POST',
-	        url: '/Ideas/vote/saveVote/' + data.currentTarget.dataset.id,
-	        data : {comment:"comment", type: "NEGATIVE"},
-	        success: function(msg) {
-	            alert(msg);
-	            document.getElementById("voteForm").reset();
-	        },
-	        error : function(XMLHttpRequest, textStatus, errorThrown){
-	            alert("an error occured " + errorThrown);
-	        }
-	    });
+	$('.voteDown').click(function(data) {
+		vote('NEGATIVE', 'A negative comment', data);
 	});
-	$('.voteUp').click(function(data){
-		$.ajax({
-	        type: 'POST',
-	        url: '/Ideas/vote/saveVote/' + data.currentTarget.dataset.id,
-	        data : {comment:"comment", type: "POSITIVE"},
-	        success: function(msg) {
-	            alert(msg);
-	            document.getElementById("voteForm").reset();
-	        },
-	        error : function(XMLHttpRequest, textStatus, errorThrown){
-	            alert("an error occured " + errorThrown);
-	        }
-	    });
+
+	$('.voteUp').click(function(data) {
+	    vote('POSITIVE', 'A negative comment', data);
 	});
 });
 </script>
