@@ -19,7 +19,7 @@ import com.rudilucas.ideas.service.MergeService;
 @Transactional
 @Controller(value = "profileController")
 @RequestMapping("/profile")
-public class ProfileController {
+public class ProfileController extends AbstractController {
 
     @Autowired
     private MergeService mergeService;
@@ -27,8 +27,9 @@ public class ProfileController {
     @RequestMapping(method = RequestMethod.GET, value = "/pendingMerges")
     @ResponseBody
     public List<MergeRequest> pendingMerges(final HttpServletRequest request, Principal principal) {
-        User user = (User) principal;
+        User user = getLoggedUser(principal);
         List<MergeRequest> requests = mergeService.findPendingMerges(user);
         return requests;
     }
+
 }

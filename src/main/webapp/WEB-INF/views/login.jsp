@@ -9,11 +9,11 @@
 
 			<label for='username'>User Name</label>
 			<div class="inputPaddingWrap"> 
-				<input id='j_username' class='input required username ' type="text" name="j_username" maxlength="50" />
+				<input id='username' class='input required username ' type="text" name="username" maxlength="50" />
 			</div>
 			<label>Password</label> 
 			<div class="inputPaddingWrap">
-				<input type="password" class='input required' name="j_password" id="j_password" name="j_password" maxlength="25"/>
+				<input type="password" class='input required' name="password" id="password" maxlength="25"/>
 			</div>
 			<div class="errorMessage">Please complete the highlighted fields</div>
 			<input type="submit" value="SIGN IN" class="linkButton" />

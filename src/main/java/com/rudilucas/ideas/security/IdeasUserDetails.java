@@ -20,12 +20,9 @@ public class IdeasUserDetails extends WebAuthenticationDetails implements UserDe
 
     private User user;
 
-
-    public IdeasUserDetails(HttpServletRequest request) {
+    public IdeasUserDetails(HttpServletRequest request, UserDetails userDetails) {
         super(request);
-        String username = request.getParameter("username");
-        User user = new User(username);
-        this.user = user;
+        this.user = (User) userDetails;
     }
 
     public Collection<GrantedAuthority> getAuthorities() {

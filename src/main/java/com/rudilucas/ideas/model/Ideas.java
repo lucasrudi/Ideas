@@ -16,6 +16,7 @@ public class Ideas implements Externalizable {
     private ObjectId id;
     private String title;
     private String description;
+    @DBRef
     private User creator;
     private int positiveVotes;
     private int negativeVotes;
@@ -35,10 +36,11 @@ public class Ideas implements Externalizable {
         status = IdeaStatus.ACTIVE;
     }
 
-    public Ideas(String title, String description) {
+    public Ideas(String title, String description, User creator) {
         this.title = title;
         this.description = description;
         status = IdeaStatus.ACTIVE;
+        this.creator = creator;
     }
 
     public ObjectId getId() {

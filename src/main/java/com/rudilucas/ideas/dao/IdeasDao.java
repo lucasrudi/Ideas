@@ -1,11 +1,12 @@
 package com.rudilucas.ideas.dao;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.bson.types.ObjectId;
 
 import com.rudilucas.ideas.model.Ideas;
-import com.rudilucas.ideas.model.Vote;
+import com.rudilucas.ideas.model.User;
 
 public interface IdeasDao {
 
@@ -15,6 +16,6 @@ public interface IdeasDao {
 
     Ideas find(ObjectId id);
 
-    void addVote(ObjectId id, Vote vote);
+    Collection<Ideas> findByCreator(User user);
 
 }

@@ -14,6 +14,7 @@ import com.rudilucas.ideas.dao.IdeasDao;
 import com.rudilucas.ideas.model.IdeaStatus;
 import com.rudilucas.ideas.model.Ideas;
 import com.rudilucas.ideas.model.MergeRequest;
+import com.rudilucas.ideas.model.User;
 
 @Transactional
 @Service(value = "ideasService")
@@ -21,6 +22,7 @@ public class DefaultIdeasService implements IdeasService {
 
     @Autowired
     private IdeasDao ideasDao;
+
     @Autowired
     private MergeService mergeService;
 
@@ -61,5 +63,10 @@ public class DefaultIdeasService implements IdeasService {
         originIdea.setStatus(IdeaStatus.MERGED);
         ideasDao.store(originIdea);
         ideasDao.store(destinationIdea);
+    }
+
+    @Override
+    public Collection<Ideas> findMyIdeas(User user) {
+        return ideasDao.findByCreator(user);
     }
 }

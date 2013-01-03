@@ -1,5 +1,7 @@
 package com.rudilucas.ideas.controller;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.bson.types.ObjectId;
@@ -23,9 +25,10 @@ public class VoteController {
     private VoteService voteService;
 
     @RequestMapping(value = "/saveVote/{id}", method = RequestMethod.POST)
-    public void voteIdea(@PathVariable ObjectId id, @ModelAttribute Vote voteForm, HttpServletResponse respose) {
+    public void voteIdea(@PathVariable ObjectId id, @ModelAttribute Vote voteForm, HttpServletResponse response) throws IOException {
         voteService.saveVote(id, voteForm);
-        respose.setStatus(HttpServletResponse.SC_OK);
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.sendRedirect("/Ideas");
     }
 
 }

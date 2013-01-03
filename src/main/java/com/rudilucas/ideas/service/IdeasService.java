@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.bson.types.ObjectId;
 
 import com.rudilucas.ideas.model.Ideas;
+import com.rudilucas.ideas.model.User;
 
 public interface IdeasService {
     public Collection<Ideas> findActiveIdeas();
@@ -16,5 +17,7 @@ public interface IdeasService {
     public void mergeRequest(ObjectId origin, ObjectId destination);
 
     public void acceptMerge(ObjectId id);
+
+    public Collection<Ideas> findMyIdeas(User user);
 
 }

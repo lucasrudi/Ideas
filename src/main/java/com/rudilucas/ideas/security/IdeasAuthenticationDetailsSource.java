@@ -17,13 +17,13 @@ public class IdeasAuthenticationDetailsSource extends WebAuthenticationDetailsSo
     private UserService userService;
 
     public IdeasUserDetails buildDetails(HttpServletRequest request) {
-        String username = request.getParameter("j_username");
+        String username = request.getParameter("username");
         UserDetails userDetails = userService.loadUserByUsername(username);
         if (userDetails == null) {
             throw new AuthenticationServiceException("User not found");
         }
-        
-        IdeasUserDetails ideasUserDetails = new IdeasUserDetails(request);
+
+        IdeasUserDetails ideasUserDetails = new IdeasUserDetails(request, userDetails);
 
         userService.updateUser(ideasUserDetails);
         return ideasUserDetails;

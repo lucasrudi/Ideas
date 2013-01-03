@@ -1,5 +1,6 @@
 package com.rudilucas.ideas.controller;
 
+import java.security.Principal;
 import java.util.Collection;
 
 import org.bson.types.ObjectId;
@@ -22,7 +23,8 @@ import com.rudilucas.ideas.service.IdeasService;
 @Transactional
 @Controller(value = "ideasController")
 @RequestMapping("/ideas")
-public class IdeasController {
+public class IdeasController extends AbstractController {
+
     @Autowired
     private IdeasService ideasService;
 
@@ -36,14 +38,21 @@ public class IdeasController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/createForm")
-    public String getCreateForm(Model model) {
-        model.addAttribute(new Ideas("", ""));
+    public String getCreateForm(Model model, Principal principal) {
+        model.addAttribute(new Ideas("", "", getLoggedUser(principal)));
         return "ideas/createForm";
     }
 
     @RequestMapping(value = "/store", method = RequestMethod.POST)
-    public void addProvider(@ModelAttribute Ideas idea) {
+    public void saveIdea(@ModelAttribute Ideas idea, Principal principal) {
+        idea.setCreator(getLoggedUser(principal));
         ideasService.sotreIdea(idea);
+    }
+    
+    @RequestMapping(value = "/myIdeas", method = RequestMethod.GET)
+    public @ResponseBody
+    Collection<Ideas> getMyIdeas(Principal principal) {
+        return ideasService.findMyIdeas(getLoggedUser(principal));
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

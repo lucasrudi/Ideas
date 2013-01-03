@@ -1,5 +1,9 @@
 package com.rudilucas.ideas.dao;
 
+import static org.springframework.data.mongodb.core.query.Criteria.where;
+import static org.springframework.data.mongodb.core.query.Query.query;
+
+import java.util.Collection;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -10,7 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.rudilucas.ideas.model.Ideas;
-import com.rudilucas.ideas.model.Vote;
+import com.rudilucas.ideas.model.User;
 
 @Component
 @Service(value = "ideasDao")
@@ -36,9 +40,7 @@ public class MongoIdeasDao implements IdeasDao {
     }
 
     @Override
-    public void addVote(ObjectId id, Vote vote) {
-        Ideas ideas = find(id);
-        ideas.addVote(vote);
-        store(ideas);
+    public Collection<Ideas> findByCreator(User user) {
+        return mongoOperations.find(query(where("creator.name").is(user.getName())), Ideas.class);
     }
 }
