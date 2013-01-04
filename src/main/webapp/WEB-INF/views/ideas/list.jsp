@@ -70,13 +70,13 @@ $(document).ready(function() {
         activeClass: "ui-state-hover",
         hoverClass: "ui-state-active",
         drop: function( event, ui ) {
-            origin = ideasListTable.fnGetData(ui.draggable[0]._DT_RowIndex);
-            destination = ideasListTable.fnGetData($(this)[0]._DT_RowIndex);
+            origin = ui.draggable[0].cells[6].innerText;
+            destination = $(this)[0].cells[6].innerText;
             $(ui.draggable).hide(1000);
             $.ajax({
                 type: 'POST',
                 url: '/Ideas/ideas/merge',
-                data : {"origin": origin[6], "destination": destination[6]},
+                data : {"origin": origin, "destination": destination},
                 success: function(msg) {
                     document.getElementById("voteForm").reset();
                 },

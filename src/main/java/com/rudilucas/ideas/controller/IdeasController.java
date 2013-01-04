@@ -1,5 +1,6 @@
 package com.rudilucas.ideas.controller;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.Collection;
 
@@ -7,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -47,10 +48,11 @@ public class IdeasController extends AbstractController {
     }
 
     @RequestMapping(value = "/store", method = RequestMethod.POST)
-    public void saveIdea(@ModelAttribute Ideas idea, Principal principal, HttpServletResponse response) {
+    public void saveIdea(@ModelAttribute Ideas idea, Principal principal, HttpServletResponse response) throws IOException {
         idea.setCreator(getLoggedUser(principal));
         ideasService.sotreIdea(idea);
         response.setStatus(HttpServletResponse.SC_OK);
+        response.sendRedirect("getAll");
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -64,13 +66,13 @@ public class IdeasController extends AbstractController {
     }
 
     @RequestMapping(value = "/merge", method = RequestMethod.POST)
-    public void merge(@Param(value = "origin") ObjectId origin, @Param(value = "destination") ObjectId destination, HttpServletResponse response) {
+    public void merge(@RequestParam(value = "origin") ObjectId origin, @RequestParam(value = "destination") ObjectId destination, HttpServletResponse response) {
         ideasService.mergeRequest(origin, destination);
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
     @RequestMapping(value = "/mergeAccept/", method = RequestMethod.POST)
-    public void merge(@Param(value = "id") ObjectId id, Principal principal, HttpServletResponse response) {
+    public void merge(@RequestParam(value = "id") ObjectId id, Principal principal, HttpServletResponse response) {
         ideasService.acceptMerge(id, getLoggedUser(principal));
         response.setStatus(HttpServletResponse.SC_OK);
     }
