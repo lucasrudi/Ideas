@@ -12,8 +12,12 @@ public interface MergeService {
 
     void requestMerge(Ideas originIdea, Ideas destinationIdea);
 
-    MergeRequest acceptMerge(ObjectId id);
+    MergeRequest acceptMerge(ObjectId id, User user);
+
+    void rejectMerge(ObjectId id, User user);
 
     List<MergeRequest> findPendingMerges(User user);
+
+    void deleteMergeOfIdea(ObjectId id, User user);
 
 }

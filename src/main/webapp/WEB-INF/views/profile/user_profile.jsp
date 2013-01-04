@@ -6,11 +6,11 @@
 
 <html>
 <head>
-<title>List Ideas</title>
+<title>My Profile</title>
 <script type="text/javascript" src="<c:url value="../static/scripts/jquery-1.8.3.js" /> "></script>
 <script type="text/javascript" src="<c:url value="../static/scripts/json.min.js" /> "></script>
 <script type="text/javascript" src="<c:url value="../static/scripts/jquery-ui-1.9.2.custom.min.js" /> "></script>
-<script type="text/javascript" src="<c:url value="../static/scripts/idea_list.js" /> "></script>
+<script type="text/javascript" src="<c:url value="../static/scripts/profile.js" /> "></script>
 <script type="text/javascript" src="<c:url value="../static/scripts/jquery.datatables.min.js" /> "></script>
 <link rel="Stylesheet" type="style" href="../static/css/ideas.css"/>
 <link rel="Stylesheet" type="style" href="../static/css/demo.css"/>
@@ -20,17 +20,15 @@
 <body>
     <jsp:include page="../general/navigation.jsp"></jsp:include>
     <div class="container">
-        <h1>Ideas</h1>
-        <div id="list">
-            <table class="display" id="data_table">
+    <div id="list">
+            <table class="display" id="ideas_list">
                 <thead>
                     <tr>
                         <th width="20%">Title</th>
                         <th width="25%">Description</th>
                         <th width="20%">Positive Votes</th>
                         <th width="20%">Negative Votes</th>
-                        <th width="10%">Positive</th>
-                        <th width="10%">Negative</th>
+                        <th width="20%">Delete</th>
                         <th width="10%"></th>
                     </tr>
                 </thead>
@@ -41,78 +39,59 @@
                             <td>${idea.description}</td>
                             <td>${idea.positiveVotes} <c:if test="idea.agregattedPositivePoints > 0"> (<c:out value="${idea.agregattedPositivePoints}"/>) </c:if> </td>
                             <td>${idea.negativeVotes} <c:if test="idea.agregattedNegativePoints > 0"> (<c:out value="${idea.agregattedNegativePoints}"/>) </c:if></td>
-                            <td class="voteUp" data-id="${idea.id}" onclick="javascript:void(0)" ><p/></td>
-                            <td class="voteDown" data-id="${idea.id}" onclick="javascript:void(0)" ><p/></td>
+                            <td class="delete" data-id="${idea.id}" onclick="javascript:void(0)" ><p/></td>
+                            <td hidden="true">${idea.id}</td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+            
+            <table class="display" id="pending_request">
+                <thead>
+                    <tr>
+                        <th width="20%">Your Idea</th>
+                        <th width="25%">Your Friends Idea</th>
+                        <th width="20%">Accept</th>
+                        <th width="20%">Reject</th>
+                        <th width="10%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="merge" items="${pendingMerges}">
+                        <tr>
+                            <td>${merge.originIdea.title}</td>
+                            <td>${merge.destinationIdea.title}</td>
+                            <td class="accept" data-id="${merge.id}" onclick="javascript:void(0)" ><p/></td>
+                            <td class="reject" data-id="${merge.id}" onclick="javascript:void(0)" ><p/></td>
                             <td hidden="true">${idea.id}</td>
                         </tr>
                     </c:forEach>
                 </tbody>
             </table>
         </div>
-        <div style="display:none">
-            <form id='voteForm'>
-                <input id="type" type="hidden" />
-                <input id="comment" type="hidden" value="acomment "/>
-            </form>
-        </div>
     </div>
     <div id="dialog">
-    	<input type="text" id="commentDialog" />
     </div>
 </body>
 
 <script type="text/javascript">
 $(document).ready(function() {
-    ideasListTable = $('#data_table').dataTable();
-    $('#data_table tbody tr').draggable();
-    $('#data_table tbody tr').droppable({
-        accept: "#data_table tbody tr",
-        activeClass: "ui-state-hover",
-        hoverClass: "ui-state-active",
-        drop: function( event, ui ) {
-            origin = ideasListTable.fnGetData(ui.draggable[0]._DT_RowIndex);
-            destination = ideasListTable.fnGetData($(this)[0]._DT_RowIndex);
-            $(ui.draggable).hide(1000);
-            $.ajax({
-                type: 'POST',
-                url: '/Ideas/ideas/merge',
-                data : {"origin": origin[6], "destination": destination[6]},
-                success: function(msg) {
-                    document.getElementById("voteForm").reset();
-                },
-                error : function(XMLHttpRequest, textStatus, errorThrown){
-                    alert("an error occured " + errorThrown);
-                }
-            });
-        }
-    });
-    $("#dialog").dialog({ 
-    	autoOpen: false , 
-    	show: "blind",
-        hide: "explode",
-        draggable: false,
-        buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); } }]
-    });
-
-    $('.voteDown').click(function(data) {
+    ideasListTable = $('#ideas_list').dataTable();
+    ideasListTable = $('#pending_request').dataTable();
+    $('.delete').click(function(data) {
     	$("#dialog").dialog( {
-			close: function(dialogdata) {
-    			vote('NEGATIVE', $("#commentDialog").val(), data);
-        	}
-    	});
-    	$("#dialog").dialog( "open");
-    });
-
-    $('.voteUp').click(function(data) {
-    	$("#dialog").dialog( {
-			close: function(dialogdata) {
-    			vote('POSITIVE', $("#commentDialog").val(), data);
-    			$("#commentDialog").val('')
-        	}
+    		autoOpen: false , 
+        	show: "blind",
+            hide: "explode",
+            draggable: false,
+            buttons: [ { text: "Ok", click: function() { deleteIdea(data); $( this ).dialog( "close" ); } },
+                       { text: "Cancel", click: function() { $( this ).dialog( "close" ); } }],
+    		title: "are you sure that you want to delete this idea?",
     	});
     	$("#dialog").dialog( "open");
     });
 });
 </script>
+
 
 </html>

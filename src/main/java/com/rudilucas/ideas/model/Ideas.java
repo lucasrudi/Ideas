@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
 public class Ideas implements Externalizable {
@@ -18,6 +19,7 @@ public class Ideas implements Externalizable {
     private String title;
     private String description;
     @DBRef
+    @Indexed
     private User creator;
     private int positiveVotes;
     private int negativeVotes;

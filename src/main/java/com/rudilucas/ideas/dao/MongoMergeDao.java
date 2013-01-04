@@ -33,9 +33,22 @@ public class MongoMergeDao implements MergeDao {
 
     @Override
     public List<MergeRequest> findByReceiverRequestUser(User user) {
-        Query query = new Query(where("destinationIdea.creator.username").is(user.getUsername()));
+        Query query = new Query(where("destinationIdea.creator.$id").is(user.getId()));
         List<MergeRequest> requests = mongoOperations.find(query, MergeRequest.class);
         return requests;
+    }
+
+    @Override
+    public void delete(ObjectId id) {
+        mongoOperations.remove(findById(id));
+    }
+
+    @Override
+    public void deleteMergesOfIdea(ObjectId id, User user) {
+        Query query = new Query(where("destinationIdea.creator.$id").is(user.getId()));
+        mongoOperations.remove(query, MergeRequest.class);
+        query = new Query(where("originIdea.creator.$id").is(user.getId()));
+        mongoOperations.remove(query, MergeRequest.class);
     }
 
 }

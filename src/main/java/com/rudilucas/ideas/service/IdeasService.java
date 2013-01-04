@@ -16,8 +16,10 @@ public interface IdeasService {
 
     public void mergeRequest(ObjectId origin, ObjectId destination);
 
-    public void acceptMerge(ObjectId id);
-
     public Collection<Ideas> findMyIdeas(User user);
+
+    void acceptMerge(ObjectId id, User user);
+
+    void delete(ObjectId id, User user);
 
 }

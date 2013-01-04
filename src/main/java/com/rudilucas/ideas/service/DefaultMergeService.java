@@ -21,14 +21,18 @@ public class DefaultMergeService implements MergeService {
     @Override
     public void requestMerge(Ideas originIdea, Ideas destinationIdea) {
         mergeDao.saveMerge(new MergeRequest(originIdea, destinationIdea));
-        // TODO send mail
+        // TODO send mail to the origin creator
     }
 
     @Override
-    public MergeRequest acceptMerge(ObjectId id) {
+    public MergeRequest acceptMerge(ObjectId id, User user) {
         MergeRequest merge = mergeDao.findById(id);
+        if (!merge.getOriginIdea().getCreator().equals(user)) {
+            throw new IllegalAccessError("User is not allowed to accept the merge of the requested item");
+        }
         merge.setAcceptedDate(new Date());
         mergeDao.saveMerge(merge);
+        //TODO send mail to the accepted requestor user
         return merge;
     }
 
@@ -36,6 +40,21 @@ public class DefaultMergeService implements MergeService {
     public List<MergeRequest> findPendingMerges(User user) {
         List<MergeRequest> requests = mergeDao.findByReceiverRequestUser(user);
         return requests;
+    }
+
+    @Override
+    public void rejectMerge(ObjectId id, User user) {
+        MergeRequest merge = mergeDao.findById(id);
+        if (!merge.getOriginIdea().getCreator().equals(user)) {
+            throw new IllegalAccessError("User is not allowed to reject the merge of the requested item");
+        }
+        //TODO send mail to the rejected user
+        mergeDao.delete(id);
+    }
+
+    @Override
+    public void deleteMergeOfIdea(ObjectId id, User user) {
+        mergeDao.deleteMergesOfIdea(id, user);
     }
 
 }

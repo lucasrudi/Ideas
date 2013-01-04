@@ -54,9 +54,8 @@ public class DefaultIdeasService implements IdeasService {
     }
 
     @Override
-    public void acceptMerge(ObjectId id) {
-        // TODO validate that destinationIdea user name match with logged user
-        MergeRequest acceptedMerge = mergeService.acceptMerge(id);
+    public void acceptMerge(ObjectId id, User user) {
+        MergeRequest acceptedMerge = mergeService.acceptMerge(id, user);
         Ideas destinationIdea = acceptedMerge.getDestinationIdea();
         Ideas originIdea = acceptedMerge.getOriginIdea();
         destinationIdea.addMergedIdea(originIdea);
@@ -68,5 +67,15 @@ public class DefaultIdeasService implements IdeasService {
     @Override
     public Collection<Ideas> findMyIdeas(User user) {
         return ideasDao.findByCreator(user);
+    }
+
+    @Override
+    public void delete(ObjectId id, User user) {
+        Ideas idea = loadIdea(id);
+        if (!idea.getCreator().getId().equals(user.getId())) {
+            throw new IllegalAccessError("Unable to delete an idea not created by you");
+        }
+        ideasDao.delete(id);
+        mergeService.deleteMergeOfIdea(id, user);
     }
 }

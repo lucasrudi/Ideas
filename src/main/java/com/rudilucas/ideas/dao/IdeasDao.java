@@ -18,4 +18,6 @@ public interface IdeasDao {
 
     Collection<Ideas> findByCreator(User user);
 
+    void delete(ObjectId id);
+
 }

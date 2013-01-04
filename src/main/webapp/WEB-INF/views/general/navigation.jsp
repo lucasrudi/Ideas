@@ -11,7 +11,7 @@
     <div class="navigation">
         <a href="ideas/createForm" >Create new Idea</a> |
         <a href="ideas/getAll" >List Ideas</a> |
-        <a href="ideas/myIdeas" >My Ideas</a>
+        <a href="profile/myProfile" >My Ideas</a> |
         <a href="logout" >Logout</a> |
     </div>
 </div>

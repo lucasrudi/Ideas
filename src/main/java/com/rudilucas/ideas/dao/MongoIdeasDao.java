@@ -41,6 +41,12 @@ public class MongoIdeasDao implements IdeasDao {
 
     @Override
     public Collection<Ideas> findByCreator(User user) {
-        return mongoOperations.find(query(where("creator.name").is(user.getName())), Ideas.class);
+        return mongoOperations.find(query(where("creator.$id").is(user.getId())), Ideas.class);
     }
+
+    @Override
+    public void delete(ObjectId id) {
+        mongoOperations.remove(find(id));
+    }
+
 }

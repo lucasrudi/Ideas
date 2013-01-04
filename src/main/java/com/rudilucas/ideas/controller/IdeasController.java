@@ -3,6 +3,8 @@ package com.rudilucas.ideas.controller;
 import java.security.Principal;
 import java.util.Collection;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -31,6 +33,7 @@ public class IdeasController extends AbstractController {
     @RequestMapping(method = RequestMethod.GET, value = "/getAll")
     @ResponseBody
     public ModelAndView getIdeas() {
+        //TODO filter the ideas that I've requested to have merged.
         Collection<Ideas> ideas = ideasService.findActiveIdeas();
         ModelAndView mav = new ModelAndView("ideas/list");
         mav.addObject("ideasList", ideas);
@@ -44,15 +47,10 @@ public class IdeasController extends AbstractController {
     }
 
     @RequestMapping(value = "/store", method = RequestMethod.POST)
-    public void saveIdea(@ModelAttribute Ideas idea, Principal principal) {
+    public void saveIdea(@ModelAttribute Ideas idea, Principal principal, HttpServletResponse response) {
         idea.setCreator(getLoggedUser(principal));
         ideasService.sotreIdea(idea);
-    }
-    
-    @RequestMapping(value = "/myIdeas", method = RequestMethod.GET)
-    public @ResponseBody
-    Collection<Ideas> getMyIdeas(Principal principal) {
-        return ideasService.findMyIdeas(getLoggedUser(principal));
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -65,14 +63,21 @@ public class IdeasController extends AbstractController {
         return idea;
     }
 
-    @RequestMapping(value = "/merge/", method = RequestMethod.POST)
-    public void merge(@Param(value = "origin") ObjectId origin, @Param(value = "destination") ObjectId destination) {
+    @RequestMapping(value = "/merge", method = RequestMethod.POST)
+    public void merge(@Param(value = "origin") ObjectId origin, @Param(value = "destination") ObjectId destination, HttpServletResponse response) {
         ideasService.mergeRequest(origin, destination);
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 
     @RequestMapping(value = "/mergeAccept/", method = RequestMethod.POST)
-    public void merge(@Param(value = "id") ObjectId id) {
-        ideasService.acceptMerge(id);
+    public void merge(@Param(value = "id") ObjectId id, Principal principal, HttpServletResponse response) {
+        ideasService.acceptMerge(id, getLoggedUser(principal));
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable ObjectId id, Principal principal, HttpServletResponse response) {
+        ideasService.delete(id, getLoggedUser(principal));
+        response.setStatus(HttpServletResponse.SC_OK);
+    }
 }

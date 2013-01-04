@@ -15,4 +15,8 @@ public interface MergeDao {
 
     List<MergeRequest> findByReceiverRequestUser(User user);
 
+    void delete(ObjectId id);
+
+    void deleteMergesOfIdea(ObjectId id, User user);
+
 }
