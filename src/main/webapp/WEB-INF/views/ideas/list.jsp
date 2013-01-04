@@ -26,6 +26,7 @@
                 <thead>
                     <tr>
                         <th width="20%">Title</th>
+                        <th width="10%">Status</th>
                         <th width="25%">Description</th>
                         <th width="20%">Positive Votes</th>
                         <th width="20%">Negative Votes</th>
@@ -38,6 +39,7 @@
                     <c:forEach var="idea" items="${ideasList}">
                         <tr>
                             <td>${idea.title}</td>
+                            <td>${idea.status}</td>
                             <td>${idea.description}</td>
                             <td>${idea.positiveVotes} <c:if test="idea.agregattedPositivePoints > 0"> (<c:out value="${idea.agregattedPositivePoints}"/>) </c:if> </td>
                             <td>${idea.negativeVotes} <c:if test="idea.agregattedNegativePoints > 0"> (<c:out value="${idea.agregattedNegativePoints}"/>) </c:if></td>
@@ -57,7 +59,7 @@
         </div>
     </div>
     <div id="dialog">
-    	<input type="text" id="commentDialog" />
+        <input type="text" id="commentDialog" />
     </div>
 </body>
 
@@ -70,8 +72,8 @@ $(document).ready(function() {
         activeClass: "ui-state-hover",
         hoverClass: "ui-state-active",
         drop: function( event, ui ) {
-            origin = ui.draggable[0].cells[6].innerText;
-            destination = $(this)[0].cells[6].innerText;
+            origin = ui.draggable[0].cells[7].innerText;
+            destination = $(this)[0].cells[7].innerText;
             $(ui.draggable).hide(1000);
             $.ajax({
                 type: 'POST',
@@ -87,30 +89,30 @@ $(document).ready(function() {
         }
     });
     $("#dialog").dialog({ 
-    	autoOpen: false , 
-    	show: "blind",
+        autoOpen: false , 
+        show: "blind",
         hide: "explode",
         draggable: false,
         buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); } }]
     });
 
     $('.voteDown').click(function(data) {
-    	$("#dialog").dialog( {
-			close: function(dialogdata) {
-    			vote('NEGATIVE', $("#commentDialog").val(), data);
-        	}
-    	});
-    	$("#dialog").dialog( "open");
+        $("#dialog").dialog( {
+            close: function(dialogdata) {
+                vote('NEGATIVE', $("#commentDialog").val(), data);
+            }
+        });
+        $("#dialog").dialog( "open");
     });
 
     $('.voteUp').click(function(data) {
-    	$("#dialog").dialog( {
-			close: function(dialogdata) {
-    			vote('POSITIVE', $("#commentDialog").val(), data);
-    			$("#commentDialog").val('')
-        	}
-    	});
-    	$("#dialog").dialog( "open");
+        $("#dialog").dialog( {
+            close: function(dialogdata) {
+                vote('POSITIVE', $("#commentDialog").val(), data);
+                $("#commentDialog").val('')
+            }
+        });
+        $("#dialog").dialog( "open");
     });
 });
 </script>

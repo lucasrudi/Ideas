@@ -10,10 +10,10 @@ function vote(action, comment, data) {
         data : {comment:comment, type: action},
         success: function(data, msg, event) {
             if (actionType === "POSITIVE") {
-                tdSelected = $($(trSelected).children()[2]);
+                tdSelected = $($(trSelected).children()[3]);
                 $(tdSelected).html(parseInt(tdSelected.html()) + 1);
             } else {
-            	tdSelected = $($(trSelected).children()[3]);
+            	tdSelected = $($(trSelected).children()[4]);
             	$(tdSelected).html(parseInt(tdSelected.html()) +1);
             }
         },
