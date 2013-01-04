@@ -166,6 +166,9 @@ public class Ideas implements Externalizable {
     }
 
     public void addMergedIdea(Ideas originIdea) {
+        if (mergedIdeas == null) {
+            mergedIdeas = new ArrayList<Ideas>();
+        }
         mergedIdeas.add(originIdea);
     }
 

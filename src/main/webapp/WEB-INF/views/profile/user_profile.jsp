@@ -49,11 +49,11 @@
             <table class="display" id="pending_request">
                 <thead>
                     <tr>
-                        <th width="20%">Your Idea</th>
-                        <th width="25%">Your Friends Idea</th>
-                        <th width="20%">Accept</th>
-                        <th width="20%">Reject</th>
-                        <th width="10%"></th>
+                        <th width="35%">Your Idea</th>
+                        <th width="35%">Your Friends Idea</th>
+                        <th width="15%">Accept</th>
+                        <th width="15%">Reject</th>
+                        <th width="0"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -89,6 +89,13 @@ $(document).ready(function() {
     		title: "are you sure that you want to delete this idea?",
     	});
     	$("#dialog").dialog( "open");
+    });
+    $('.reject').click(function(data) {
+    	rejectMerge(data);
+    });
+
+    $('.accept').click(function(data) {
+    	acceptMerge(data);
     });
 });
 </script>

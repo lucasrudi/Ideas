@@ -22,4 +22,6 @@ public interface IdeasService {
 
     void delete(ObjectId id, User user);
 
+    public void rejectMerge(ObjectId id, User user);
+
 }

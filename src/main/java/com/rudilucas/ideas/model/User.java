@@ -71,5 +71,13 @@ public class User extends LdapUserDetailsImpl implements UserDetails, Externaliz
         out.writeObject(name);
         out.writeObject(email);
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this.id.equals(((User) obj).getId())) {
+            return true;
+        }
+        return super.equals(obj);
+    }
 
 }

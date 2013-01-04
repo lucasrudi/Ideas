@@ -32,7 +32,7 @@ public class DefaultMergeService implements MergeService {
         }
         merge.setAcceptedDate(new Date());
         mergeDao.saveMerge(merge);
-        //TODO send mail to the accepted requestor user
+        // TODO send mail to the accepted requester user
         return merge;
     }
 
@@ -48,7 +48,7 @@ public class DefaultMergeService implements MergeService {
         if (!merge.getOriginIdea().getCreator().equals(user)) {
             throw new IllegalAccessError("User is not allowed to reject the merge of the requested item");
         }
-        //TODO send mail to the rejected user
+        // TODO send mail to the rejected user
         mergeDao.delete(id);
     }
 

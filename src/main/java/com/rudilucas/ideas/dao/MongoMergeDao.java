@@ -26,7 +26,7 @@ public class MongoMergeDao implements MergeDao {
 
     @Override
     public void saveMerge(MergeRequest mergeRequest) {
-        mongoOperations.insert(mergeRequest);
+        mongoOperations.save(mergeRequest);
     }
 
     @Override
@@ -41,7 +41,8 @@ public class MongoMergeDao implements MergeDao {
         Collection<MergeRequest> collection = CollectionUtils.select(requests, new Predicate<MergeRequest>() {
             @Override
             public boolean evaluate(final MergeRequest request) {
-                return CollectionUtils.exists(ideasFromCreator, new Predicate<Ideas>() {
+                return request.getAcceptedDate() == null &&
+                        CollectionUtils.exists(ideasFromCreator, new Predicate<Ideas>() {
                     @Override
                     public boolean evaluate(Ideas idea) {
                         if (request.getDestinationIdea() == null) {

@@ -71,9 +71,15 @@ public class IdeasController extends AbstractController {
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
-    @RequestMapping(value = "/mergeAccept/", method = RequestMethod.POST)
-    public void merge(@RequestParam(value = "id") ObjectId id, Principal principal, HttpServletResponse response) {
+    @RequestMapping(value = "/mergeAccept/{id}", method = RequestMethod.POST)
+    public void mergeAccept(@PathVariable(value = "id") ObjectId id, Principal principal, HttpServletResponse response) {
         ideasService.acceptMerge(id, getLoggedUser(principal));
+        response.setStatus(HttpServletResponse.SC_OK);
+    }
+
+    @RequestMapping(value = "/mergeReject/{id}", method = RequestMethod.POST)
+    public void mergeReject(@PathVariable(value = "id") ObjectId id, Principal principal, HttpServletResponse response) {
+        ideasService.rejectMerge(id, getLoggedUser(principal));
         response.setStatus(HttpServletResponse.SC_OK);
     }
 

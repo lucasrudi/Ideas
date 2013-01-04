@@ -78,4 +78,9 @@ public class DefaultIdeasService implements IdeasService {
         ideasDao.delete(id);
         mergeService.deleteMergeOfIdea(id, user);
     }
+
+    @Override
+    public void rejectMerge(ObjectId id, User user) {
+        mergeService.rejectMerge(id, user);
+    }
 }
