@@ -37,7 +37,7 @@
                 </thead>
                 <tbody>
                     <c:forEach var="idea" items="${ideasList}">
-                        <tr>
+                        <tr class="ideaRow">
                             <td>${idea.title}</td>
                             <td>${idea.status}</td>
                             <td>${idea.description}</td>
@@ -66,9 +66,9 @@
 <script type="text/javascript">
 $(document).ready(function() {
     ideasListTable = $('#data_table').dataTable();
-    $('#data_table tbody tr').draggable();
-    $('#data_table tbody tr').droppable({
-        accept: "#data_table tbody tr",
+    $('.ideaRow').draggable();
+    $('.ideaRow').droppable({
+        accept: ".ideaRow",
         activeClass: "ui-state-hover",
         hoverClass: "ui-state-active",
         drop: function( event, ui ) {

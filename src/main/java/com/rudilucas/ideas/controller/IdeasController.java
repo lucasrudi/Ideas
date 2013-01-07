@@ -41,10 +41,10 @@ public class IdeasController extends AbstractController {
         return mav;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/createForm")
-    public String getCreateForm(Model model, Principal principal) {
+    @RequestMapping(method = RequestMethod.GET, value = "/create")
+    public String getCreate(Model model, Principal principal) {
         model.addAttribute(new Ideas("", "", getLoggedUser(principal)));
-        return "ideas/createForm";
+        return "ideas/create";
     }
 
     @RequestMapping(value = "/store", method = RequestMethod.POST)

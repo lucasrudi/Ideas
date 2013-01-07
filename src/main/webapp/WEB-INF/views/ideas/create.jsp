@@ -8,6 +8,7 @@
         <title>Create Idea</title>
         <script type="text/javascript" src="<c:url value="../static/scripts/jquery-1.4.min.js" /> "></script>
         <script type="text/javascript" src="<c:url value="../static/scripts/json.min.js" /> "></script>
+        <script type="text/javascript" src="<c:url value="../static/scripts/idea_create.js" /> "></script>
     </head>
     <body>
         <div class="container">
@@ -53,22 +54,6 @@
                 return false;
             });
         });
- 
-        function showPopup() {
-            $('#popup').fadeIn('fast');
-            $('#mask').fadeIn('fast');
-        }
-         
-        function closePopup() {
-            $('#popup').fadeOut('fast');
-            $('#mask').fadeOut('fast');
-            resetForm();
-        }
- 
-        function resetForm() {
-            $('#ideas')[0].reset();
-        }
-         
     </script>
 
 </html>
