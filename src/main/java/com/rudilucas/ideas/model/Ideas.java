@@ -36,13 +36,13 @@ public class Ideas implements Externalizable {
     public Ideas() {
         this.title = "";
         this.description = "";
-        status = IdeaStatus.ACTIVE;
+        status = IdeaStatus.AVAILABLE;
     }
 
     public Ideas(String title, String description, User creator) {
         this.title = title;
         this.description = description;
-        status = IdeaStatus.ACTIVE;
+        status = IdeaStatus.AVAILABLE;
         this.creator = creator;
     }
 
@@ -162,7 +162,7 @@ public class Ideas implements Externalizable {
     }
 
     public boolean isActive() {
-        return status.equals(IdeaStatus.ACTIVE) || status.equals(IdeaStatus.IN_PROGRESS);
+        return status.equals(IdeaStatus.AVAILABLE) || status.equals(IdeaStatus.IN_PROGRESS) || status.equals(IdeaStatus.ACTIVE);
     }
 
     public void addMergedIdea(Ideas originIdea) {
@@ -170,6 +170,10 @@ public class Ideas implements Externalizable {
             mergedIdeas = new ArrayList<Ideas>();
         }
         mergedIdeas.add(originIdea);
+    }
+
+    public boolean isAvailable() {
+        return status.equals(IdeaStatus.AVAILABLE) || status.equals(IdeaStatus.ACTIVE);
     }
 
 }

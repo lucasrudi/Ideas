@@ -26,6 +26,7 @@ public class DefaultIdeasService implements IdeasService {
     @Autowired
     private MergeService mergeService;
 
+    @Override
     public Collection<Ideas> findActiveIdeas() {
         List<Ideas> findAllIdeas = ideasDao.findAllIdeas();
         Collection<Ideas> activeIdeas = CollectionUtils.select(findAllIdeas, new Predicate<Ideas>() {
@@ -38,10 +39,12 @@ public class DefaultIdeasService implements IdeasService {
         return activeIdeas;
     }
 
-    public void sotreIdea(Ideas idea) {
+    @Override
+    public void storeIdea(Ideas idea) {
         ideasDao.store(idea);
     }
 
+    @Override
     public Ideas loadIdea(ObjectId id) {
         return ideasDao.find(id);
     }
@@ -82,5 +85,16 @@ public class DefaultIdeasService implements IdeasService {
     @Override
     public void rejectMerge(ObjectId id, User user) {
         mergeService.rejectMerge(id, user);
+    }
+
+    @Override
+    public void startIdea(ObjectId id, User user) {
+        Ideas idea = loadIdea(id);
+        if (!idea.isAvailable()) {
+            throw new IllegalAccessError("Unable to start idea: " + idea + ". Must be on available state");
+        }
+        idea.setStatus(IdeaStatus.IN_PROGRESS);
+        storeIdea(idea);
+        //TODO email all the voters and creator.
     }
 }

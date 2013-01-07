@@ -10,7 +10,7 @@ import com.rudilucas.ideas.model.User;
 public interface IdeasService {
     public Collection<Ideas> findActiveIdeas();
 
-    public void sotreIdea(Ideas idea);
+    public void storeIdea(Ideas idea);
 
     public Ideas loadIdea(ObjectId id);
 
@@ -23,5 +23,7 @@ public interface IdeasService {
     void delete(ObjectId id, User user);
 
     public void rejectMerge(ObjectId id, User user);
+
+    public void startIdea(ObjectId id, User user);
 
 }

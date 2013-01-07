@@ -50,9 +50,16 @@ public class IdeasController extends AbstractController {
     @RequestMapping(value = "/store", method = RequestMethod.POST)
     public void saveIdea(@ModelAttribute Ideas idea, Principal principal, HttpServletResponse response) throws IOException {
         idea.setCreator(getLoggedUser(principal));
-        ideasService.sotreIdea(idea);
+        ideasService.storeIdea(idea);
         response.setStatus(HttpServletResponse.SC_OK);
         response.sendRedirect("getAll");
+    }
+
+    @RequestMapping(value = "/start/{id}", method = RequestMethod.POST)
+    public ModelAndView start(@PathVariable ObjectId id, Principal principal, HttpServletResponse response) throws IOException {
+        ideasService.startIdea(id, getLoggedUser(principal));
+
+        return new ModelAndView("redirect:/ideas/getAll");
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

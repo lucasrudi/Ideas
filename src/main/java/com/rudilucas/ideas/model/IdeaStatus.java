@@ -1,5 +1,6 @@
 package com.rudilucas.ideas.model;
 
+//TODO deprecate ACTIVE state
 public enum IdeaStatus {
-    ACTIVE, IN_PROGRESS, MERGED, DONE;
+    AVAILABLE, IN_PROGRESS, MERGED, DONE, ACTIVE;
 }

@@ -24,3 +24,9 @@
 	background-size: 20px;
 	background-repeat: no-repeat;
 }
+
+.notification {
+	font-size: 30px;
+	font-family: sans-serif;;
+	font: bold;
+}

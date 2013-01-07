@@ -37,7 +37,7 @@
                 </thead>
                 <tbody>
                     <c:forEach var="idea" items="${ideasList}">
-                        <tr class="ideaRow">
+                        <tr class="ideaRow" id="${idea.id}">
                             <td>${idea.title}</td>
                             <td>${idea.status}</td>
                             <td>${idea.description}</td>
@@ -60,6 +60,10 @@
     </div>
     <div id="dialog">
         <input type="text" id="commentDialog" />
+    </div>
+    <div id="ideaDetails">
+        <p>Start the Idea</p>
+        <div id="startMessages"></div>
     </div>
 </body>
 
@@ -88,12 +92,30 @@ $(document).ready(function() {
             });
         }
     });
+
+    $('.ideaRow').click(function(data) {
+        $("#ideaDetails").data("id", data.currentTarget.id).dialog("open");
+    });
+
     $("#dialog").dialog({ 
-        autoOpen: false , 
+        autoOpen: false,
         show: "blind",
         hide: "explode",
         draggable: false,
         buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); } }]
+    });
+
+    $("#ideaDetails").dialog({ 
+        title: "Start the Idea",
+        autoOpen: false,
+        show: "blind",
+        hide: "explode",
+        draggable: false,
+        buttons: [ { text: "Ok", click: function(dataDialog, ui) { 
+            startIdea($( this ).data("id")); 
+            } },
+                   { text: "Cancel", click: function() { $( this ).dialog( "close" ); } }
+                 ]
     });
 
     $('.voteDown').click(function(data) {
