@@ -25,10 +25,11 @@
                 <thead>
                     <tr>
                         <th width="20%">Title</th>
+                        <th width="10%">Status</th>
                         <th width="25%">Description</th>
-                        <th width="20%">Positive Votes</th>
-                        <th width="20%">Negative Votes</th>
-                        <th width="20%">Delete</th>
+                        <th width="15%">Positive Votes</th>
+                        <th width="15%">Negative Votes</th>
+                        <th width="10%">Delete</th>
                         <th width="10%"></th>
                     </tr>
                 </thead>
@@ -36,6 +37,7 @@
                     <c:forEach var="idea" items="${ideasList}">
                         <tr>
                             <td>${idea.title}</td>
+                            <td>${idea.status}</td>
                             <td>${idea.description}</td>
                             <td>${idea.positiveVotes} <c:if test="idea.agregattedPositivePoints > 0"> (<c:out value="${idea.agregattedPositivePoints}"/>) </c:if> </td>
                             <td>${idea.negativeVotes} <c:if test="idea.agregattedNegativePoints > 0"> (<c:out value="${idea.agregattedNegativePoints}"/>) </c:if></td>
@@ -79,26 +81,25 @@ $(document).ready(function() {
     ideasListTable = $('#ideas_list').dataTable();
     ideasListTable = $('#pending_request').dataTable();
     $('.delete').click(function(data) {
-    	$("#dialog").dialog( {
-    		autoOpen: false , 
-        	show: "blind",
+        $("#dialog").dialog( {
+            autoOpen: false , 
+            show: "blind",
             hide: "explode",
             draggable: false,
             buttons: [ { text: "Ok", click: function() { deleteIdea(data); $( this ).dialog( "close" ); } },
                        { text: "Cancel", click: function() { $( this ).dialog( "close" ); } }],
-    		title: "are you sure that you want to delete this idea?",
-    	});
-    	$("#dialog").dialog( "open");
+            title: "are you sure that you want to delete this idea?",
+        });
+        $("#dialog").dialog( "open");
     });
     $('.reject').click(function(data) {
-    	rejectMerge(data);
+        rejectMerge(data);
     });
 
     $('.accept').click(function(data) {
-    	acceptMerge(data);
+        acceptMerge(data);
     });
 });
 </script>
-
 
 </html>

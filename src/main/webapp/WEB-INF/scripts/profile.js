@@ -1,9 +1,9 @@
 function deleteIdea(data) {
-	$.ajax({
+    $.ajax({
         type: 'DELETE',
         url: '/Ideas/ideas/delete/' + data.currentTarget.dataset.id,
         success: function(dataResponse, msg, event) {
-        	$(data.currentTarget).closest('tr').hide(1000);
+            $(data.currentTarget).closest('tr').hide(1000);
         },
         error : function(XMLHttpRequest, textStatus, errorThrown){
             alert("an error occured " + errorThrown);
@@ -12,11 +12,11 @@ function deleteIdea(data) {
 };
 
 function acceptMerge(data) {
-	$.ajax({
+    $.ajax({
         type: 'POST',
         url: '/Ideas/ideas/mergeAccept/' + data.currentTarget.dataset.id,
         success: function(dataResponse, msg, event) {
-        	$(data.currentTarget).closest('tr').hide(1000);
+            $(data.currentTarget).closest('tr').hide(1000);
         },
         error : function(XMLHttpRequest, textStatus, errorThrown){
             alert("an error occured " + errorThrown);
@@ -25,11 +25,11 @@ function acceptMerge(data) {
 };
 
 function rejectMerge(data) {
-	$.ajax({
+    $.ajax({
         type: 'POST',
         url: '/Ideas/ideas/mergeReject/' + data.currentTarget.dataset.id,
         success: function(dataResponse, msg, event) {
-        	$(data.currentTarget).closest('tr').hide(1000);
+            $(data.currentTarget).closest('tr').hide(1000);
         },
         error : function(XMLHttpRequest, textStatus, errorThrown){
             alert("an error occured " + errorThrown);

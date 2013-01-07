@@ -1,9 +1,8 @@
-
 function vote(action, comment, data) {
-	votedElementId = data.currentTarget.dataset.id;
-	trSelected = $("tr:contains('"+votedElementId+"')")[0];
-	dataSelected = ideasListTable.fnGetData(trSelected);
-	actionType=action;
+    votedElementId = data.currentTarget.dataset.id;
+    trSelected = $("tr:contains('"+votedElementId+"')")[0];
+    dataSelected = ideasListTable.fnGetData(trSelected);
+    actionType=action;
     $.ajax({
         type: 'POST',
         url: '/Ideas/vote/saveVote/' + data.currentTarget.dataset.id,
@@ -13,8 +12,8 @@ function vote(action, comment, data) {
                 tdSelected = $($(trSelected).children()[3]);
                 $(tdSelected).html(parseInt(tdSelected.html()) + 1);
             } else {
-            	tdSelected = $($(trSelected).children()[4]);
-            	$(tdSelected).html(parseInt(tdSelected.html()) +1);
+                tdSelected = $($(trSelected).children()[4]);
+                $(tdSelected).html(parseInt(tdSelected.html()) +1);
             }
         },
         error : function(XMLHttpRequest, textStatus, errorThrown){
