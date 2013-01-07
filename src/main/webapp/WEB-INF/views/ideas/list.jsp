@@ -22,7 +22,7 @@
     <div class="container">
         <h1>Ideas</h1>
         <div id="list">
-            <table class="display" id="data_table">
+            <table class="display" id="ideas_list">
                 <thead>
                     <tr>
                         <th width="20%">Title</th>
@@ -65,7 +65,7 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-    ideasListTable = $('#data_table').dataTable();
+    ideasListTable = $('#ideas_list').dataTable();
     $('.ideaRow').draggable();
     $('.ideaRow').droppable({
         accept: ".ideaRow",
