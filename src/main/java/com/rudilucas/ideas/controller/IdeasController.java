@@ -58,7 +58,6 @@ public class IdeasController extends AbstractController {
     @RequestMapping(value = "/start/{id}", method = RequestMethod.POST)
     public ModelAndView start(@PathVariable ObjectId id, Principal principal, HttpServletResponse response) throws IOException {
         ideasService.startIdea(id, getLoggedUser(principal));
-
         return new ModelAndView("redirect:/ideas/getAll");
     }
 

@@ -14,7 +14,7 @@
 <script type="text/javascript" src="<c:url value="../static/scripts/jquery.datatables.min.js" /> "></script>
 <link rel="Stylesheet" type="style" href="../static/css/ideas.css"/>
 <link rel="Stylesheet" type="style" href="../static/css/demo.css"/>
-<link rel="Stylesheet" type="style" href="../static/css/jquery-ui-1.9.2.custom.min.css"/>
+<link rel="Stylesheet" type="style" href="../static/css/jquery-ui.css"/>
 </head>
 
 <body>
@@ -32,7 +32,7 @@
                         <th width="20%">Negative Votes</th>
                         <th width="10%">Positive</th>
                         <th width="10%">Negative</th>
-                        <th width="10%"></th>
+                        <th hidden="true" width="10%"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -62,6 +62,8 @@
         <input type="text" id="commentDialog" />
     </div>
     <div id="ideaDetails">
+        <div id="ideaDetailsContainer">
+        </div>
         <p>Start the Idea</p>
         <div id="startMessages"></div>
     </div>

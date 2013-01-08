@@ -12,6 +12,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
+import com.rudilucas.ideas.controller.JSONUtils;
+
 public class Ideas implements Externalizable {
 
     @Id
@@ -174,6 +176,10 @@ public class Ideas implements Externalizable {
 
     public boolean isAvailable() {
         return status.equals(IdeaStatus.AVAILABLE) || status.equals(IdeaStatus.ACTIVE);
+    }
+    
+    public String getJson() {
+        return JSONUtils.toJson(this);
     }
 
 }

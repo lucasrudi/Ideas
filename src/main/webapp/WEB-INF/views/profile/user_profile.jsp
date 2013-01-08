@@ -14,7 +14,7 @@
 <script type="text/javascript" src="<c:url value="../static/scripts/jquery.datatables.min.js" /> "></script>
 <link rel="Stylesheet" type="style" href="../static/css/ideas.css"/>
 <link rel="Stylesheet" type="style" href="../static/css/demo.css"/>
-<link rel="Stylesheet" type="style" href="../static/css/jquery-ui-1.9.2.custom.min.css"/>
+<link rel="Stylesheet" type="style" href="../static/css/jquery-ui.css"/>
 </head>
 
 <body>
