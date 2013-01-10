@@ -12,8 +12,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
-import com.rudilucas.ideas.controller.JSONUtils;
-
 public class Ideas implements Externalizable {
 
     @Id
@@ -39,6 +37,8 @@ public class Ideas implements Externalizable {
         this.title = "";
         this.description = "";
         status = IdeaStatus.AVAILABLE;
+        mergedIdeas = new ArrayList<Ideas>();
+        votes = new ArrayList<Vote>();
     }
 
     public Ideas(String title, String description, User creator) {
@@ -46,10 +46,12 @@ public class Ideas implements Externalizable {
         this.description = description;
         status = IdeaStatus.AVAILABLE;
         this.creator = creator;
+        mergedIdeas = new ArrayList<Ideas>();
+        votes = new ArrayList<Vote>();
     }
 
-    public ObjectId getId() {
-        return id;
+    public String getId() {
+        return id.toString();
     }
 
     public void setId(ObjectId id) {
@@ -176,10 +178,6 @@ public class Ideas implements Externalizable {
 
     public boolean isAvailable() {
         return status.equals(IdeaStatus.AVAILABLE) || status.equals(IdeaStatus.ACTIVE);
-    }
-    
-    public String getJson() {
-        return JSONUtils.toJson(this);
     }
 
 }

@@ -23,32 +23,6 @@
         <h1>Ideas</h1>
         <div id="list">
             <table class="display" id="ideas_list">
-                <thead>
-                    <tr>
-                        <th width="20%">Title</th>
-                        <th width="10%">Status</th>
-                        <th width="25%">Description</th>
-                        <th width="20%">Positive Votes</th>
-                        <th width="20%">Negative Votes</th>
-                        <th width="10%">Positive</th>
-                        <th width="10%">Negative</th>
-                        <th hidden="true" width="10%"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <c:forEach var="idea" items="${ideasList}">
-                        <tr class="ideaRow" id="${idea.id}">
-                            <td>${idea.title}</td>
-                            <td>${idea.status}</td>
-                            <td>${idea.description}</td>
-                            <td>${idea.positiveVotes} <c:if test="idea.agregattedPositivePoints > 0"> (<c:out value="${idea.agregattedPositivePoints}"/>) </c:if> </td>
-                            <td>${idea.negativeVotes} <c:if test="idea.agregattedNegativePoints > 0"> (<c:out value="${idea.agregattedNegativePoints}"/>) </c:if></td>
-                            <td class="voteUp" data-id="${idea.id}" onclick="javascript:void(0)" ><p/></td>
-                            <td class="voteDown" data-id="${idea.id}" onclick="javascript:void(0)" ><p/></td>
-                            <td hidden="true">${idea.id}</td>
-                        </tr>
-                    </c:forEach>
-                </tbody>
             </table>
         </div>
         <div style="display:none">
@@ -71,73 +45,7 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-    ideasListTable = $('#ideas_list').dataTable();
-    $('.ideaRow').draggable();
-    $('.ideaRow').droppable({
-        accept: ".ideaRow",
-        activeClass: "ui-state-hover",
-        hoverClass: "ui-state-active",
-        drop: function( event, ui ) {
-            origin = ui.draggable[0].cells[7].innerText;
-            destination = $(this)[0].cells[7].innerText;
-            $(ui.draggable).hide(1000);
-            $.ajax({
-                type: 'POST',
-                url: '/Ideas/ideas/merge',
-                data : {"origin": origin, "destination": destination},
-                success: function(msg) {
-                    document.getElementById("voteForm").reset();
-                },
-                error : function(XMLHttpRequest, textStatus, errorThrown){
-                    alert("an error occured " + errorThrown);
-                }
-            });
-        }
-    });
-
-    $('.ideaRow').click(function(data) {
-        $("#ideaDetails").data("id", data.currentTarget.id).dialog("open");
-    });
-
-    $("#dialog").dialog({ 
-        autoOpen: false,
-        show: "blind",
-        hide: "explode",
-        draggable: false,
-        buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); } }]
-    });
-
-    $("#ideaDetails").dialog({ 
-        title: "Start the Idea",
-        autoOpen: false,
-        show: "blind",
-        hide: "explode",
-        draggable: false,
-        buttons: [ { text: "Ok", click: function(dataDialog, ui) { 
-            startIdea($( this ).data("id")); 
-            } },
-                   { text: "Cancel", click: function() { $( this ).dialog( "close" ); } }
-                 ]
-    });
-
-    $('.voteDown').click(function(data) {
-        $("#dialog").dialog( {
-            close: function(dialogdata) {
-                vote('NEGATIVE', $("#commentDialog").val(), data);
-            }
-        });
-        $("#dialog").dialog( "open");
-    });
-
-    $('.voteUp').click(function(data) {
-        $("#dialog").dialog( {
-            close: function(dialogdata) {
-                vote('POSITIVE', $("#commentDialog").val(), data);
-                $("#commentDialog").val('')
-            }
-        });
-        $("#dialog").dialog( "open");
-    });
+    initPage();
 });
 </script>
 

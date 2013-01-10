@@ -41,7 +41,7 @@ public class MongoMergeDao implements MergeDao {
         Collection<MergeRequest> collection = CollectionUtils.select(requests, new Predicate<MergeRequest>() {
             @Override
             public boolean evaluate(final MergeRequest request) {
-                return request.getAcceptedDate() == null &&
+                return request.getAcceptedDate() == null && request.getDestinationIdea() != null && request.getOriginIdea() != null && 
                         CollectionUtils.exists(ideasFromCreator, new Predicate<Ideas>() {
                     @Override
                     public boolean evaluate(Ideas idea) {

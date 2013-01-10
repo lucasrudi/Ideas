@@ -3,6 +3,8 @@ package com.rudilucas.ideas.controller;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -34,11 +36,17 @@ public class IdeasController extends AbstractController {
     @RequestMapping(method = RequestMethod.GET, value = "/getAll")
     @ResponseBody
     public ModelAndView getIdeas() {
+        return new ModelAndView("ideas/list");
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getActiveIdeas", produces="application/json")
+    @ResponseBody
+    public Map<String, Collection<Ideas>> getActiveIdeas() {
         //TODO filter the ideas that I've requested to have merged.
         Collection<Ideas> ideas = ideasService.findActiveIdeas();
-        ModelAndView mav = new ModelAndView("ideas/list");
-        mav.addObject("ideasList", ideas);
-        return mav;
+        Map<String, Collection<Ideas>> map = new HashMap<String, Collection<Ideas>>();
+        map.put("ideas", ideas);
+        return map;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/create")
