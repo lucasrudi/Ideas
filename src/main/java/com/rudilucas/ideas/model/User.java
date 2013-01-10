@@ -36,8 +36,8 @@ public class User extends LdapUserDetailsImpl implements UserDetails, Externaliz
         this.email = mail;
     }
 
-    public ObjectId getId() {
-        return id;
+    public String getId() {
+        return id.toString();
     }
 
     public void setId(ObjectId id) {
