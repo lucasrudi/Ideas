@@ -28,6 +28,10 @@
                             <form:input path="description" /><form:errors path="description" />
                         </p>
                         <p>
+                            Tags <br/>
+                            <input type="text" id="tagstring" name="tagstring" />
+                        </p>
+                        <p>
                             <input id="create" type="submit" value="Create" />
                         </p>
                     </fieldset>
@@ -46,13 +50,31 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $("#ideas").submit(function() {
-                var account = $(this).serializeObject();
-                $.postJSON("store", account, function(data) {
+                var ideas = $(this).serializeObject();
+                $.postJSON("store", ideas, function(data) {
                     $("#assignedId").val(data);
                     showPopup();
                 });
                 return false;
             });
+        });
+
+        $( "#tag" ).autocomplete({source: function( request, response ) {
+            $.getJSON( "search.php", {
+                term: extractLast( request.term )
+              }, response );
+            },
+            select: function( event, ui ) {
+                var terms = split( this.value );
+                // remove the current input
+                terms.pop();
+                // add the selected item
+                terms.push( ui.item.value );
+                // add placeholder to get the comma-and-space at the end
+                terms.push( "" );
+                this.value = terms.join( ", " );
+                return false;
+              }
         });
     </script>
 

@@ -10,7 +10,7 @@ import com.rudilucas.ideas.model.User;
 public interface IdeasService {
     public Collection<Ideas> findActiveIdeas();
 
-    public void storeIdea(Ideas idea);
+    public void storeIdea(Ideas idea, String tagsString);
 
     public Ideas loadIdea(ObjectId id);
 

@@ -28,7 +28,9 @@ public class Ideas implements Externalizable {
     private transient List<Vote> votes;
     @DBRef
     private transient List<Ideas> mergedIdeas;
-
+    @DBRef
+    private List<Tag> tags;
+    
     @Deprecated
     /**
      * @deprecated to be used only for the modelAtrribute
@@ -39,6 +41,7 @@ public class Ideas implements Externalizable {
         status = IdeaStatus.AVAILABLE;
         mergedIdeas = new ArrayList<Ideas>();
         votes = new ArrayList<Vote>();
+        tags = new ArrayList<Tag>();
     }
 
     public Ideas(String title, String description, User creator) {
@@ -48,6 +51,7 @@ public class Ideas implements Externalizable {
         this.creator = creator;
         mergedIdeas = new ArrayList<Ideas>();
         votes = new ArrayList<Vote>();
+        tags = new ArrayList<Tag>();
     }
 
     public String getId() {
@@ -130,6 +134,23 @@ public class Ideas implements Externalizable {
         return aggregation + negativeVotes;
     }
 
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
+    }
+
+    public void setTags(String tagsString) {
+        String[] arrayTags = tagsString.split(",");
+        List<Tag> tagsList = new ArrayList<Tag>();
+        for (String tag : arrayTags) {
+            tagsList.add(new Tag(tag));
+        }
+        this.tags = tagsList;
+    }
+
     @SuppressWarnings("unchecked")
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         id = (ObjectId) in.readObject();
@@ -140,6 +161,7 @@ public class Ideas implements Externalizable {
         votes = (List<Vote>) in.readObject();
         creator = (User) in.readObject();
         status = (IdeaStatus) in.readObject();
+        tags = (List<Tag>) in.readObject();
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {
@@ -151,6 +173,7 @@ public class Ideas implements Externalizable {
         out.writeObject(votes);
         out.writeObject(creator);
         out.writeObject(status);
+        out.writeObject(tags);
     }
 
     public void addVote(Vote vote) {

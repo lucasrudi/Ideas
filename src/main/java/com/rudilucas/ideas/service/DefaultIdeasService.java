@@ -24,6 +24,9 @@ public class DefaultIdeasService implements IdeasService {
     private IdeasDao ideasDao;
 
     @Autowired
+    private TagService tagService;
+
+    @Autowired
     private MergeService mergeService;
 
     @Override
@@ -40,7 +43,13 @@ public class DefaultIdeasService implements IdeasService {
     }
 
     @Override
-    public void storeIdea(Ideas idea) {
+    public void storeIdea(Ideas idea, String tagsString) {
+        idea.setTags(tagsString);
+        tagService.saveAllNecesaryTags(idea.getTags());
+        storeIdea(idea);
+    }
+
+    private void storeIdea(Ideas idea) {
         ideasDao.store(idea);
     }
 
@@ -97,4 +106,5 @@ public class DefaultIdeasService implements IdeasService {
         storeIdea(idea);
         //TODO email all the voters and creator.
     }
+
 }

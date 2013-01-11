@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.bson.types.ObjectId;
@@ -56,9 +57,10 @@ public class IdeasController extends AbstractController {
     }
 
     @RequestMapping(value = "/store", method = RequestMethod.POST)
-    public void saveIdea(@ModelAttribute Ideas idea, Principal principal, HttpServletResponse response) throws IOException {
+    public void saveIdea(@ModelAttribute Ideas idea, Principal principal, HttpServletRequest request, HttpServletResponse response) throws IOException {
         idea.setCreator(getLoggedUser(principal));
-        ideasService.storeIdea(idea);
+        String tagsString = request.getParameter("tagstring");
+        ideasService.storeIdea(idea, tagsString);
         response.setStatus(HttpServletResponse.SC_OK);
         response.sendRedirect("getAll");
     }
