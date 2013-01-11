@@ -61,7 +61,7 @@
 		</property>
 		<property name="ignoreUnresolvablePlaceholders" value="false" />
 	</bean>
-	<import resource="security-sample.xml" />
+	<import resource="security-context.xml" />
 	<import resource="dao-context.xml " />
 	<import resource="ldap-context.xml" />
 

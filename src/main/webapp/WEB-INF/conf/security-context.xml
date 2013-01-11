@@ -1,83 +1,70 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:security="http://www.springframework.org/schema/security"
-	xmlns:util="http://www.springframework.org/schema/util"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans 
-      http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
-   http://www.springframework.org/schema/security 
-   http://www.springframework.org/schema/security/spring-security-3.1.xsd
-   http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
-	<security:global-method-security secured-annotations="enabled"></security:global-method-security>
-	<security:http security="none" pattern="/static/**" />
-	<security:http auto-config="true" use-expressions="true" authentication-manager-ref="authenticationManager">
-		<security:intercept-url pattern="/j_spring_security_check" access="isAnonymous()" />
-		<security:intercept-url pattern="/login/" access="isAnonymous()" />
-		<security:intercept-url pattern="/ideas/**" access="hasRole('ROLE_USER')" />
-		<security:intercept-url pattern="/**" access="isAnonymous()" />
-		<!-- <security:intercept-url pattern="/**" access="hasRole('ROLE_USER')" /> -->
-		<security:form-login authentication-details-source-ref="authenticationDetailsSource" />
-		<security:logout />
-		<security:anonymous />
-		<security:session-management >
-			<security:concurrency-control max-sessions="1" />
-		</security:session-management>
-	</security:http>
-	
-	<bean id="authenticationDetailsSource"
-		class="com.rudilucas.ideas.security.IdeasAuthenticationDetailsSource">
-		<property name="userService" ref="userService"></property>
-	</bean>
-	<bean id="autenticationSource" class="com.rudilucas.ideas.security.LdapAuthenticationSource" />
+    xmlns:s="http://www.springframework.org/schema/security"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
-	<bean
-		class="org.springframework.security.authentication.encoding.Md5PasswordEncoder"
-		id="passwordEncoder" />
+    <s:http>
+        <s:intercept-url pattern="/register" access="ROLE_ANONYMOUS" />
+        <s:intercept-url pattern="/login" access="ROLE_ANONYMOUS" />
+        <s:intercept-url pattern="/secure/extreme/**" access="ROLE_SUPERVISOR"/>
+        <s:intercept-url pattern="/ideas/**" access="ROLE_USER" />
+        <s:intercept-url pattern="/profile/**" access="ROLE_USER" />
+        <s:intercept-url pattern="/**" access="ROLE_USER" />
+        <s:form-login authentication-details-source-ref="ideasAuthenticationDetailsSource" password-parameter="password" username-parameter="username"/>
+        <s:logout logout-url="/logout" />
+    </s:http>
 
-	<bean id="userService" class="com.rudilucas.ideas.service.DefaultUserService">
-		<property name="userDao" ref="userDao"></property>
-	</bean>
-	
-	<security:authentication-manager id="authenticationManager" >
-    	<security:authentication-provider ref="ldapAuthProvider">
-		</security:authentication-provider>
-	</security:authentication-manager>
-	<!-- 
-	<security:ldap-server url="${ldap.connection.url}" id="ldapServer"
-		manager-dn="${ldap.manager.user}" 
-		manager-password="${ldap.manager.pass}" root="DC=ny,DC=rga,DC=com" />
-	 -->
-	<bean id="contextSource" class="org.springframework.security.ldap.DefaultSpringSecurityContextSource">
-    	<constructor-arg value="${ldap.connection.url}" />
-    	<property name="userDn" value="${ldap.manager.user}" />
-    	<property name="password" value="${ldap.manager.pass}" />
-    	<property name="authenticationSource" ref="autenticationSource" />
-	</bean>
+    <!-- Simple namespace-based configuration -->
 
-	<bean id="ldapAuthProvider" class="org.springframework.security.ldap.authentication.LdapAuthenticationProvider">
-	    <constructor-arg>
-	        <bean class="com.rudilucas.ideas.security.ldap.LdapAuthenticatorImpl">
-	            <property name="contextFactory" ref="contextSource" />
-	            <property name="principalPrefix" value="${ldap.principal.prefix}" />
-	            <property name="user" ref="user"></property>
-	        </bean>
-	    </constructor-arg>
-	    <constructor-arg>
-	      <bean class="org.springframework.security.ldap.userdetails.DefaultLdapAuthoritiesPopulator" >
-	      	<constructor-arg name="contextSource" ref="contextSource"/>
-	      	<constructor-arg name="groupSearchBase" value="${ldap.group.search.base}"/>
-            <property name="groupSearchFilter" value="${ldap.group.seach.filter}"></property>
-	      </bean>
-	    </constructor-arg>
-	</bean>
-	<!-- DAOs -->
-	<bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">
-		<constructor-arg ref="contextSource" />
-  	</bean>
-  	<bean class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler" id="expressionHandler"/>
+    <s:ldap-server manager-dn="${ldap.manager.user}" manager-password="${ldap.manager.pass}" port="389" root="DC=ny,DC=rga,DC=com" url="${ldap.connection.url}"/>
 
-	<bean id="ideasAuthenticationProvider"
-		class="com.rudilucas.ideas.security.IdeasAuthenticationProvider" />
+    <s:authentication-manager>
+        <s:ldap-authentication-provider
+            group-search-filter="member={0}"
+            group-search-base="${ldap.group.search.base}"
+            user-search-base="${ldap.group.search.base}"
+            user-search-filter="uid={0}"
+        />
+        <s:authentication-provider ref='secondLdapProvider-${ldap.impl}' />
+    </s:authentication-manager>
 
-	
+
+    <!-- Traditional Bean version of the same configuration -->
+
+    <!-- This bean points at the embedded directory server created by the ldap-server element above  -->
+    <bean id="contextSource" class="org.springframework.security.ldap.DefaultSpringSecurityContextSource">
+        <constructor-arg value="${ldap.connection.url}"/>
+    </bean>
+
+    <bean id="secondLdapProvider-real" class="com.rudilucas.ideas.security.ldap.RealLdapAuthenticationProvider">
+        <constructor-arg ref="bindAuthenticator"/>
+        <constructor-arg ref="ldapPopulator"/>
+    </bean>
+
+    <bean id="secondLdapProvider-mock" class="com.rudilucas.ideas.security.ldap.MockLdapAuthenticationProvider">
+        <constructor-arg ref="bindAuthenticator"/>
+        <constructor-arg ref="ldapPopulator"/>
+    </bean>
+
+    <bean class="org.springframework.security.ldap.authentication.BindAuthenticator" id="bindAuthenticator">
+        <constructor-arg ref="contextSource" />
+        <property name="userSearch" ref="userSearch"/>
+    </bean>
+
+    <bean id="userSearch" class="org.springframework.security.ldap.search.FilterBasedLdapUserSearch">
+      <constructor-arg index="0" value="${ldap.group.search.base}"/>
+      <constructor-arg index="1" value="(uid={0})"/>
+      <constructor-arg index="2" ref="contextSource" />
+    </bean>
+    
+    <bean class="org.springframework.security.ldap.userdetails.DefaultLdapAuthoritiesPopulator" id="ldapPopulator">
+        <constructor-arg ref="contextSource" />
+        <constructor-arg value="ou=groups" />
+        <property name="groupSearchFilter" value="(member={0})"/>
+        <property name="rolePrefix" value="ROLE_"/>
+        <property name="searchSubtree" value="true"/>
+        <property name="convertToUpperCase" value="true"/>
+    </bean>
+
 </beans>
-	

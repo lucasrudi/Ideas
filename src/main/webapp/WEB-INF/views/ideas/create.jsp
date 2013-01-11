@@ -27,10 +27,8 @@
                             <form:label for="description" path="description" cssErrorClass="error">Description</form:label><br/>
                             <form:input path="description" /><form:errors path="description" />
                         </p>
-                        <p>
-                            Tags <br/>
-                            <input type="text" id="tagstring" name="tagstring" />
-                        </p>
+                        <p>Tags</p><br/>
+                        <input type="text" id="tagstring" name="tagstring" /> <p class="comment">comma separated tags</p>
                         <p>
                             <input id="create" type="submit" value="Create" />
                         </p>

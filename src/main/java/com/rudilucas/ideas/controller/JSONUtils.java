@@ -2,50 +2,51 @@ package com.rudilucas.ideas.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class JSONUtils {
+    private static final Logger log = LoggerFactory.getLogger(JSONUtils.class);
 
     private JSONUtils() {
     }
-    public static String toJson(Object object) {
+    public static String toJSON(Object obj) {
         ObjectMapper mapper = new ObjectMapper();
+
+        String returnString = "ERROR";
         try {
-            return mapper.writeValueAsString(object);
+            returnString = mapper.writeValueAsString(obj);
         } catch (JsonGenerationException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.error("toJSON method throws JSON Generation Exception: ", e.getStackTrace());
         } catch (JsonMappingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.error("toJSON method throws JSON Mapping Exception: ", e.getStackTrace());
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.error("toJSON method throws IO Exception: ", e.getStackTrace());
         }
-        return "Unable to generate JSON";
+
+        return returnString;
     }
-    
+
     @SuppressWarnings("unchecked")
-    public static Map<String, Object> fromJson(String json) {
+    public static HashMap<String, Object> fromJSON(String json) {
         ObjectMapper mapper = new ObjectMapper();
-        Map<String, Object> map = new HashMap<String, Object>();
+        HashMap<String, Object> objectJson = new HashMap<String, Object>();
         try {
-            map = mapper.readValue(json, HashMap.class);
+            objectJson = mapper.readValue(json, HashMap.class);
         } catch (JsonParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.error("fromJSON method throws JSON Parse Exception: ", e.getStackTrace());
         } catch (JsonMappingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.error("fromJSON method throws JSON Mapping Exception: ", e.getStackTrace());
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.error("fromJSON method throws IO Exception: ", e.getStackTrace());
         }
-        return map;
+
+        return objectJson;
+
     }
 }
