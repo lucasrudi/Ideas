@@ -18,10 +18,13 @@ public class DefaultMergeService implements MergeService {
     @Autowired
     private MergeDao mergeDao;
 
+    @Autowired
+    private SmtpClient smtpClient;
+
     @Override
     public void requestMerge(Ideas originIdea, Ideas destinationIdea) {
         mergeDao.saveMerge(new MergeRequest(originIdea, destinationIdea));
-        // TODO send mail to the origin creator
+        smtpClient.sendMail("A merge as been requested to you idea: " + originIdea.getTitle(), "Ideas Update", originIdea.getCreator().getEmail());
     }
 
     @Override
@@ -32,7 +35,7 @@ public class DefaultMergeService implements MergeService {
         }
         merge.setAcceptedDate(new Date());
         mergeDao.saveMerge(merge);
-        // TODO send mail to the accepted requester user
+        smtpClient.sendMail("Your merge of ideas has been accepted regarding " + merge.getDestinationIdea().getTitle(), "Ideas Update", merge.getDestinationIdea().getCreator().getEmail());
         return merge;
     }
 
@@ -48,7 +51,7 @@ public class DefaultMergeService implements MergeService {
         if (!merge.getOriginIdea().getCreator().equals(user)) {
             throw new IllegalAccessError("User is not allowed to reject the merge of the requested item");
         }
-        // TODO send mail to the rejected user
+        smtpClient.sendMail("Your merge of ideas has been rejected regarding " + merge.getDestinationIdea().getTitle(), "Ideas Update", merge.getDestinationIdea().getCreator().getEmail());
         mergeDao.delete(id);
     }
 

@@ -1,4 +1,4 @@
-package com.rudilucas.ideas.controller;
+package com.rudilucas.ideas.utils;
 
 import java.io.IOException;
 import java.util.HashMap;
