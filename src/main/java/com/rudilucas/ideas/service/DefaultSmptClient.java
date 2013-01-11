@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Service;
 
+@Service(value = "smtpClient")
 public class DefaultSmptClient implements SmtpClient {
     private static final Logger log = LoggerFactory.getLogger(DefaultSmptClient.class);
 
@@ -16,7 +18,7 @@ public class DefaultSmptClient implements SmtpClient {
     private JavaMailSender sender;
 
     @Override
-    public void sendMail(String message, String subject,  String mailrecipient) {
+    public void sendMail(String message, String subject, String mailrecipient) {
         SimpleMailMessage simpleMessage = new SimpleMailMessage();
         simpleMessage.setTo(mailrecipient);
         simpleMessage.setText(message);

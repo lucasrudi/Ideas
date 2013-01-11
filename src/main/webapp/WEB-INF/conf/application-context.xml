@@ -64,5 +64,6 @@
 	<import resource="security-context.xml" />
 	<import resource="dao-context.xml " />
 	<import resource="ldap-context.xml" />
+	<import resource="mail-context.xml" />
 
 </beans>

@@ -1,4 +1,4 @@
-tbody tr .voteUp, tbody tr .accept {
+tbody tr .voteUp,tbody tr .accept {
 	background: url('../../static/images/thumb_up.png');
 	display: block;
 	width: 20px;
@@ -7,7 +7,7 @@ tbody tr .voteUp, tbody tr .accept {
 	background-repeat: no-repeat;
 }
 
-tbody tr .voteDown, tbody tr .reject {
+tbody tr .voteDown,tbody tr .reject {
 	background: url('../../static/images/thumb_down.png');
 	display: block;
 	width: 20px;
@@ -27,6 +27,23 @@ tbody tr .delete {
 
 .notification {
 	font-size: 30px;
-	font-family: sans-serif;;
+	font-family: sans-serif;
 	font: bold;
+}
+
+.ideaRow,.mergeRow {
+	cursor: hand;
+	cursor: grab;
+	cursor: -moz-grab;
+	cursor: -webkit-grab;
+}
+
+.ideaRow.grabbing,.mergeRow.grabbing {
+	cursor: grabbing important!;
+}
+
+.multilinecolumn {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: wrap;
 }

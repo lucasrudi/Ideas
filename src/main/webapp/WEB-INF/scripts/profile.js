@@ -59,6 +59,10 @@ function initPage() {
             "bServerSide": false,
             "bDeferRender": true,
             "sAjaxDataProp": "ideas",
+            "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                $(nRow).addClass('ideaRow');
+                return nRow;
+            },
             "fnDrawCallback": function( oSettings ) {
               initIdeasRowFunctions();
             },
@@ -77,6 +81,10 @@ function initPage() {
            "bServerSide": false,
            "bDeferRender": true,
            "sAjaxDataProp": "merge",
+           "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+               $(nRow).addClass('mergeRow');
+               return nRow;
+           },
            "fnDrawCallback": function( oSettings ) {
              initMergeRowFunctions();
            },

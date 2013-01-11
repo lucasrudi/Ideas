@@ -93,6 +93,44 @@ function initRowFunctions() {
         });
         $("#dialog").dialog( "open");
     });
+
+    $( "#ideas_list_filter input" )
+    // don't navigate away from the field on tab when selecting an item
+    .bind( "keydown", function( event ) {
+      if ( event.keyCode === $.ui.keyCode.TAB &&
+          $( this ).data( "autocomplete" ).menu.active ) {
+        event.preventDefault();
+      }
+    })
+    .autocomplete({
+      source: function( request, response ) {
+        $.getJSON( "search.php", {
+          term: extractLast( request.term )
+        }, response );
+      },
+      search: function() {
+        // custom minLength
+        var term = extractLast( this.value );
+        if ( term.length < 2 ) {
+          return false;
+        }
+      },
+      focus: function() {
+        // prevent value inserted on focus
+        return false;
+      },
+      select: function( event, ui ) {
+        var terms = split( this.value );
+        // remove the current input
+        terms.pop();
+        // add the selected item
+        terms.push( ui.item.value );
+        // add placeholder to get the comma-and-space at the end
+        terms.push( "" );
+        this.value = terms.join( ", " );
+        return false;
+      }
+    });
 }
 
 function initPage() {
@@ -101,7 +139,7 @@ function initPage() {
                               { "fnRender": function (o, val) { return o.aData.id;},"sDefaultContent": "", "bVisible": false, "aTargets": [ 0 ] } ,
                               { "fnRender": function (o, val) { return o.aData.title;}, "sDefaultContent": "", "sTitle": "Title", "aTargets": [ 1 ] } ,
                               { "fnRender": function (o, val) { return o.aData.status;}, "sDefaultContent": "", "sTitle": "Status", "aTargets": [ 2 ] } ,
-                              { "fnRender": function (o, val) { return o.aData.description;}, "sDefaultContent": "", "sTitle": "Description", "aTargets": [ 3 ] } ,
+                              { "fnRender": function (o, val) { return o.aData.description;}, "sDefaultContent": "", "sTitle": "Description", "aTargets": [ 3 ], "sClass" : "multilinecolumn" } ,
                               { "fnRender": function (o, val) { return o.aData.positiveVotes + " - (" + o.aData.agregattedPositivePoints + ")";}, "sDefaultContent": "", "sTitle": "Positive Votes", "aTargets": [ 4 ] } ,
                               { "fnRender": function (o, val) { return o.aData.negativeVotes + " - (" + o.aData.agregattedNegativePoints + ")";}, "sDefaultContent": "", "sTitle": "Negative Votes", "aTargets": [ 5 ] } ,
                               { "sTitle": null, "bSortable": false, "fnRender": function (o, val) { return "";}, "sDefaultContent": "", "aTargets": [ 6 ], "sClass" : "voteUp" } ,
@@ -118,7 +156,8 @@ function initPage() {
             "fnDrawCallback": function( oSettings ) {
               initRowFunctions();
             },
-            "sAjaxSource": '/Ideas/ideas/getActiveIdeas'
+            "sAjaxSource": '/Ideas/ideas/getActiveIdeas',
+            "sDom" : '<"top"plfr><t><"bottom"i>'
     });
 
     $("#dialog").dialog({ 
