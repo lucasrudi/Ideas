@@ -104,33 +104,51 @@ function initRowFunctions() {
     })
     .autocomplete({
       source: function( request, response ) {
-        $.getJSON( "search.php", {
-          term: extractLast( request.term )
-        }, response );
+        $.getJSON( "tags/getAllTags", {
+            tags: extractLast( request.term )
+        }, 
+        response);
       },
-      search: function() {
+      open: function( event, ui ) {
+          return ui.content;
+      },
+      response: function(event, ui) {
+          var tagsArray = [];
+          $.each(ui.content, function(index, value) {
+              tagsArray.push({'label':value.name, 'value':value.name});
+          });
+          return tagsArray;
+      },
+      search: function(event, ui) {
         // custom minLength
-        var term = extractLast( this.value );
-        if ( term.length < 2 ) {
+        var tags = extractLast( this.value );
+        if ( tags.length < 2 ) {
           return false;
         }
       },
-      focus: function() {
-        // prevent value inserted on focus
-        return false;
-      },
+      focus: function( event, ui ) {
+          $( "#ideas_list_filter input" ).val( ui.item.name );
+          return false;
+        },
       select: function( event, ui ) {
-        var terms = split( this.value );
+        var tags = split( this.value );
         // remove the current input
-        terms.pop();
+        tags.pop();
         // add the selected item
-        terms.push( ui.item.value );
+        tags.push( ui.item.name );
         // add placeholder to get the comma-and-space at the end
-        terms.push( "" );
-        this.value = terms.join( ", " );
+        tags.push( "" );
+        this.value = tags.join( ", " );
         return false;
       }
     });
+    $( "#ideas_list_filter input" ).on( "autocompleteresponse", function( event, ui ) {
+        var tagsArray = [];
+        $.each(ui.content, function(index, value) {
+            tagsArray.push({'label':value.name, 'value':value.name});
+        });
+        return tagsArray;
+    } );
 }
 
 function initPage() {

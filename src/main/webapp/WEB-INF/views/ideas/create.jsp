@@ -6,17 +6,23 @@
 <html>
     <head>
         <title>Create Idea</title>
-        <script type="text/javascript" src="<c:url value="../static/scripts/jquery-1.4.min.js" /> "></script>
+        <script type="text/javascript" src="<c:url value="../static/scripts/jquery-1.8.3.js" /> "></script>
+        <script type="text/javascript" src="<c:url value="../static/scripts/jquery-ui-1.9.2.custom.min.js" /> "></script>
         <script type="text/javascript" src="<c:url value="../static/scripts/json.min.js" /> "></script>
         <script type="text/javascript" src="<c:url value="../static/scripts/idea_create.js" /> "></script>
+        <script type="text/javascript" src="<c:url value="../static/scripts/json.min.js" /> "></script>
+        <link rel="Stylesheet" type="style" href="../static/css/ideas.css"/>
+        <link rel="Stylesheet" type="style" href="../static/css/demo.css"/>
+        <link rel="Stylesheet" type="style" href="../static/css/jquery-ui.css"/>
     </head>
     <body>
+        <jsp:include page="../general/navigation.jsp"></jsp:include>
         <div class="container">
             <h1>
                 Create Idea
             </h1>
             <div class="span-12 last">
-                <form:form modelAttribute="ideas" action="store" method="post">
+                <form:form modelAttribute="ideas" action="ideas/store" method="post">
                     <fieldset>
                         <legend>Ideas Fields</legend>
                         <p>
@@ -57,22 +63,42 @@
             });
         });
 
-        $( "#tag" ).autocomplete({source: function( request, response ) {
-            $.getJSON( "search.php", {
-                term: extractLast( request.term )
-              }, response );
+        $( "#tagstring" )
+        // don't navigate away from the field on tab when selecting an item
+        .bind( "keydown", function( event ) {
+          if ( event.keyCode === $.ui.keyCode.TAB &&
+              $( this ).data( "autocomplete" ).menu.active ) {
+            event.preventDefault();
+          }
+        })
+        .autocomplete({
+          source: function( request, response ) {
+            $.getJSON( "tags/getAllTags", {
+                tags: extractLast( request.term )
+            }, response );
+          },
+          search: function() {
+            // custom minLength
+            var tags = extractLast( this.value );
+            if ( tags.length < 2 ) {
+              return false;
+            }
+          },
+          focus: function( event, ui ) {
+              $( "#tagstring" ).val( ui.item.name );
+              return false;
             },
-            select: function( event, ui ) {
-                var terms = split( this.value );
-                // remove the current input
-                terms.pop();
-                // add the selected item
-                terms.push( ui.item.value );
-                // add placeholder to get the comma-and-space at the end
-                terms.push( "" );
-                this.value = terms.join( ", " );
-                return false;
-              }
+          select: function( event, ui ) {
+            var tags = split( this.value );
+            // remove the current input
+            tags.pop();
+            // add the selected item
+            tags.push( ui.item.name );
+            // add placeholder to get the comma-and-space at the end
+            tags.push( "" );
+            this.value = tags.join( ", " );
+            return false;
+          }
         });
     </script>
 

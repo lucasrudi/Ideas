@@ -11,6 +11,7 @@
 <script type="text/javascript" src="<c:url value="../static/scripts/json.min.js" /> "></script>
 <script type="text/javascript" src="<c:url value="../static/scripts/jquery-ui-1.9.2.custom.min.js" /> "></script>
 <script type="text/javascript" src="<c:url value="../static/scripts/idea_list.js" /> "></script>
+<script type="text/javascript" src="<c:url value="../static/scripts/utils.js" /> "></script>
 <script type="text/javascript" src="<c:url value="../static/scripts/jquery.datatables.min.js" /> "></script>
 <link rel="Stylesheet" type="style" href="../static/css/ideas.css"/>
 <link rel="Stylesheet" type="style" href="../static/css/demo.css"/>

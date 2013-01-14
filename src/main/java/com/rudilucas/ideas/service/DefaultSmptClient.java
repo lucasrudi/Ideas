@@ -9,6 +9,7 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service(value = "smtpClient")
 public class DefaultSmptClient implements SmtpClient {
@@ -18,16 +19,14 @@ public class DefaultSmptClient implements SmtpClient {
     private JavaMailSender sender;
 
     @Override
+    @Transactional(rollbackFor=MailException.class)
     public void sendMail(String message, String subject, String mailrecipient) {
         SimpleMailMessage simpleMessage = new SimpleMailMessage();
         simpleMessage.setTo(mailrecipient);
         simpleMessage.setText(message);
         simpleMessage.setSubject(subject);
         simpleMessage.setSentDate(new Date());
-        try {
-            sender.send(simpleMessage);
-        } catch (MailException exception) {
-            log.error("Unable to send mail, reason: ", exception.getRootCause());
-        }
+        sender.send(simpleMessage);
+        log.debug("mail sent" + simpleMessage.toString());
     }
 }
